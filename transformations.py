@@ -150,3 +150,12 @@ def otsu_thresholding(image):
 
 def low_brightness(image, delta=-50):
     return image - delta
+
+
+def edge_detection(image, sigma=0.33):
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    v = np.median(image)
+    lower = int(max(0, (1.0 - sigma) * v))
+    upper = int(min(255, (1.0 + sigma) * v))
+    edged = cv2.Canny(image, lower, upper)
+    return edged

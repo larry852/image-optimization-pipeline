@@ -51,5 +51,7 @@ if __name__ == "__main__":
     results.append(result)
     result = {'transformation': 'low_brightness', 'image': transformations.low_brightness(original)}
     results.append(result)
+    result = {'transformation': 'edge_detection', 'image': transformations.edge_detection(original)}
+    results.append(result)
     for result in results:
         save_image(result['image'], 'img/output/output-{}.png'.format(result['transformation']))
