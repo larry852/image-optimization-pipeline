@@ -12,14 +12,18 @@ def load_image(filename):
 
 
 def save_image(npdata, outfilename):
-    if not type(npdata[0, 0, 0]) == np.uint8:
-        npdata = (npdata * 255).round().astype(np.uint8)
+    try:
+        if not type(npdata[0, 0, 0]) == np.uint8:
+            npdata = (npdata * 255).round().astype(np.uint8)
+    except Exception:
+        pass
     img = Image.fromarray(npdata)
     img.save(outfilename)
 
 
 if __name__ == "__main__":
-    original = load_image(sys.argv[1])
+    filename = sys.argv[1]
+    original = load_image(filename)
     results = []
     result = {'transformation': 'remove_mean', 'image': transformations.remove_mean(original)}
     results.append(result)
@@ -38,6 +42,10 @@ if __name__ == "__main__":
     result = {'transformation': 'image_random_crop', 'image': transformations.image_crop(original, random_crop=True)}
     results.append(result)
     result = {'transformation': 'image_pad', 'image': transformations.image_pad(original)}
+    results.append(result)
+    result = {'transformation': 'image_pad', 'image': transformations.image_pad(original)}
+    results.append(result)
+    result = {'transformation': 'text_binarizarion', 'image': transformations.text_binarizarion(original)}
     results.append(result)
     for result in results:
         save_image(result['image'], 'img/output/output-{}.png'.format(result['transformation']))

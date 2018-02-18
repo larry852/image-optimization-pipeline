@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+from extra import font_and_background_color_independent_text_binarization as text_binarizarion_lib
 
 
 def remove_mean(image):
@@ -132,3 +133,7 @@ def image_pad(image, pad_width=None, axis=0, mode='symmetric'):
         newimage = np.squeeze(np.pad(image[:, :, np.newaxis], pad_width, mode))
 
     return cv2.resize(newimage, (wid, hei), interpolation=cv2.INTER_NEAREST)
+
+
+def text_binarizarion(image):
+    return text_binarizarion_lib.main(image)
