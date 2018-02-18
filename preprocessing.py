@@ -28,5 +28,11 @@ if __name__ == "__main__":
     results.append(result)
     result = {'transformation': 'contrast_adjust', 'image': transformations.contrast_adjust(original)}
     results.append(result)
+    result = {'transformation': 'flip_lr', 'image': transformations.flip(original, True, False)}
+    results.append(result)
+    result = {'transformation': 'flip_ud', 'image': transformations.flip(original, False, True)}
+    results.append(result)
+    result = {'transformation': 'flip_lr_ud', 'image': transformations.flip(original, True, True)}
+    results.append(result)
     for result in results:
         save_image(result['image'], 'img/output/output-{}.png'.format(result['transformation']))

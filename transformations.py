@@ -70,16 +70,14 @@ def contrast_adjust(image, alpha=1.3, beta=20):
         return newimage
 
 
-def random_flip(image, lr, ud):
+def flip(image, lr, ud):
     """
-    random flip image
+    flip image
     """
     if lr:
-        if np.random.random() > 0.5:
-            image = cv2.flip(image, flipCode=1)
+        image = cv2.flip(image, flipCode=1)
     if ud:
-        if np.random.random() > 0.5:
-            image = cv2.flip(image, flipCode=0)
+        image = cv2.flip(image, flipCode=0)
     return image
 
 
