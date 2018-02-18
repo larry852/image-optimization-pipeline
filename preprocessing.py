@@ -65,5 +65,7 @@ if __name__ == "__main__":
     results.append(result)
     result = {'transformation': 'intensity_increase', 'image': transformations.intensity_increase(original)}
     results.append(result)
+    result = {'transformation': 'logarithmic_transformation', 'image': transformations.logarithmic_transformation(original)}
+    results.append(result)
     for result in results:
         save_image(result['image'], 'img/output/output-{}.png'.format(result['transformation']))

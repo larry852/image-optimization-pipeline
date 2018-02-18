@@ -1,3 +1,4 @@
+import math
 import cv2
 from PIL import Image, ImageEnhance
 import numpy as np
@@ -199,4 +200,16 @@ def intensity_increase(image):
     for x in range(0, rows):
         for y in range(0, columns):
             result[x, y] = m * image[x, y] + b
+    return result
+
+
+def logarithmic_transformation(image):
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    rows, columns = image.shape
+    result = np.zeros((rows, columns), dtype=np.uint8)
+    r = np.max(image)
+    c = 255 / math.log10(1 + r)
+    for x in range(0, rows):
+        for y in range(0, columns):
+            result[x, y] = c * math.log10(1 + image[x, y])
     return result
