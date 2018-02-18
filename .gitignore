@@ -102,3 +102,7 @@ ENV/
 
 
 env_*
+
+*.jpg
+*.png
+*.jpeg
