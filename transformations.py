@@ -213,3 +213,17 @@ def logarithmic_transformation(image):
         for y in range(0, columns):
             result[x, y] = c * math.log10(1 + image[x, y])
     return result
+
+
+def exponential_transformation(image):
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    rows, columns = image.shape
+    result = np.zeros((rows, columns), dtype=np.uint8)
+
+    gamma = 0.08
+    c = 255 / 255**gamma
+
+    for x in range(0, rows):
+        for y in range(0, columns):
+            result[x, y] = c * image[x, y]**gamma
+    return result
