@@ -53,5 +53,13 @@ if __name__ == "__main__":
     results.append(result)
     result = {'transformation': 'edge_detection', 'image': transformations.edge_detection(original)}
     results.append(result)
+    result = {'transformation': 'enhance_basic_color', 'image': transformations.enhance_basic_color(original)}
+    results.append(result)
+    result = {'transformation': 'enhance_basic_contrast', 'image': transformations.enhance_basic_contrast(original)}
+    results.append(result)
+    result = {'transformation': 'enhance_basic_brightness', 'image': transformations.enhance_basic_brightness(original)}
+    results.append(result)
+    result = {'transformation': 'enhance_basic_sharpness', 'image': transformations.enhance_basic_sharpness(original)}
+    results.append(result)
     for result in results:
         save_image(result['image'], 'img/output/output-{}.png'.format(result['transformation']))

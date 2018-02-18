@@ -1,4 +1,5 @@
 import cv2
+from PIL import Image, ImageEnhance
 import numpy as np
 from extra import font_and_background_color_independent_text_binarization as text_binarizarion_lib
 
@@ -159,3 +160,27 @@ def edge_detection(image, sigma=0.33):
     upper = int(min(255, (1.0 + sigma) * v))
     edged = cv2.Canny(image, lower, upper)
     return edged
+
+
+def enhance_basic_color(image):
+    data = Image.fromarray(image)
+    enhancer = ImageEnhance.Color(data)
+    return np.asarray(enhancer.enhance(2))
+
+
+def enhance_basic_contrast(image):
+    data = Image.fromarray(image)
+    enhancer = ImageEnhance.Contrast(data)
+    return np.asarray(enhancer.enhance(2))
+
+
+def enhance_basic_brightness(image):
+    data = Image.fromarray(image)
+    enhancer = ImageEnhance.Brightness(data)
+    return np.asarray(enhancer.enhance(2))
+
+
+def enhance_basic_sharpness(image):
+    data = Image.fromarray(image)
+    enhancer = ImageEnhance.Sharpness(data)
+    return np.asarray(enhancer.enhance(4))
