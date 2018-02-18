@@ -146,3 +146,7 @@ def gaussian_blur(image):
 def otsu_thresholding(image):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[-1]
+
+
+def low_brightness(image, delta=-50):
+    return image - delta
