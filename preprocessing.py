@@ -18,7 +18,7 @@ def save_image(npdata, outfilename):
 
 
 if __name__ == "__main__":
-    original = load_image('img/input/04.jpg')
+    original = load_image('img/input/02.jpg')
     results = []
     result = {'transformation': 'remove_mean', 'image': transformations.remove_mean(original)}
     results.append(result)
@@ -33,6 +33,8 @@ if __name__ == "__main__":
     result = {'transformation': 'flip_ud', 'image': transformations.flip(original, False, True)}
     results.append(result)
     result = {'transformation': 'flip_lr_ud', 'image': transformations.flip(original, True, True)}
+    results.append(result)
+    result = {'transformation': 'image_random_crop', 'image': transformations.image_crop(original, random_crop=True)}
     results.append(result)
     for result in results:
         save_image(result['image'], 'img/output/output-{}.png'.format(result['transformation']))
