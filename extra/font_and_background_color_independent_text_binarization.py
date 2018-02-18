@@ -142,10 +142,10 @@ def keep_box(contour):
 
 
 def include_box(index, h_, contour):
-    if is_child(index, h_) and count_children(get_parent(index, h_), h_, contour) <= 2:
+    if is_child(index, h_) and count_children(get_parent(index, h_), h_, contour) <= 5:
         return False
 
-    if count_children(index, h_, contour) > 2:
+    if count_children(index, h_, contour) > 5:
         return False
 
     return True
