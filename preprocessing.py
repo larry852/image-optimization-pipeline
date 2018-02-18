@@ -61,5 +61,7 @@ if __name__ == "__main__":
     results.append(result)
     result = {'transformation': 'enhance_basic_sharpness', 'image': transformations.enhance_basic_sharpness(original)}
     results.append(result)
+    result = {'transformation': 'negative', 'image': transformations.negative(original)}
+    results.append(result)
     for result in results:
         save_image(result['image'], 'img/output/output-{}.png'.format(result['transformation']))

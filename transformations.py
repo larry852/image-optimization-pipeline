@@ -184,3 +184,7 @@ def enhance_basic_sharpness(image):
     data = Image.fromarray(image)
     enhancer = ImageEnhance.Sharpness(data)
     return np.asarray(enhancer.enhance(4))
+
+
+def negative(image):
+    return 255 - image
