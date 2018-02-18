@@ -245,3 +245,21 @@ def binarization(image):
             else:
                 result[x][y] = 0
     return result
+
+
+def gray_fractionation(image):
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    rows, columns = image.shape
+    result = np.zeros((rows, columns), dtype=np.uint8)
+
+    a = 50
+    b = 200
+
+    for x in range(0, rows):
+        for y in range(0, columns):
+            r = image[x][y]
+            if a <= r and r <= b:
+                result[x][y] = 255
+            else:
+                result[x][y] = image[x][y]
+    return result
