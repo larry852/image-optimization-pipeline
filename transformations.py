@@ -137,3 +137,12 @@ def image_pad(image, pad_width=None, axis=0, mode='symmetric'):
 
 def text_binarizarion(image):
     return text_binarizarion_lib.main(image)
+
+
+def gaussian_blur(image):
+    return cv2.GaussianBlur(image, (5, 5), 0)
+
+
+def otsu_thresholding(image):
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[-1]

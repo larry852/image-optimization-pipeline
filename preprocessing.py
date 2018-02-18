@@ -47,5 +47,9 @@ if __name__ == "__main__":
     results.append(result)
     result = {'transformation': 'text_binarizarion', 'image': transformations.text_binarizarion(original)}
     results.append(result)
+    result = {'transformation': 'gaussian_blur', 'image': transformations.gaussian_blur(original)}
+    results.append(result)
+    result = {'transformation': 'otsu_thresholding', 'image': transformations.otsu_thresholding(original)}
+    results.append(result)
     for result in results:
         save_image(result['image'], 'img/output/output-{}.png'.format(result['transformation']))
