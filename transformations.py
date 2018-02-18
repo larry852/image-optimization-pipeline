@@ -188,3 +188,15 @@ def enhance_basic_sharpness(image):
 
 def negative(image):
     return 255 - image
+
+
+def intensity_increase(image):
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    rows, columns = image.shape
+    result = np.zeros((rows, columns), dtype=np.uint8)
+    m = 0.8
+    b = 100
+    for x in range(0, rows):
+        for y in range(0, columns):
+            result[x, y] = m * image[x, y] + b
+    return result
