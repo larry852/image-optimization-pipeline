@@ -1,6 +1,6 @@
 import math
 import cv2
-from PIL import Image, ImageEnhance
+from PIL import Image, ImageEnhance, ImageOps
 import numpy as np
 from extra import font_and_background_color_independent_text_binarization as text_binarizarion_lib
 
@@ -263,3 +263,8 @@ def gray_fractionation(image):
             else:
                 result[x][y] = image[x][y]
     return result
+
+
+def histogram_equalization(image):
+    image = Image.fromarray(image)
+    return np.asarray(ImageOps.equalize(image))
