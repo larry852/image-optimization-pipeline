@@ -4,8 +4,8 @@ import transformations
 import sys
 
 
-def load_image(filename):
-    img = Image.open(filename)
+def load_image(filepath):
+    img = Image.open(filepath)
     img.load()
     data = np.asarray(img)
     return data
@@ -22,8 +22,8 @@ def save_image(npdata, outfilename):
 
 
 if __name__ == "__main__":
-    filename = sys.argv[1]
-    original = load_image(filename)
+    filepath = sys.argv[1]
+    original = load_image(filepath)
     results = []
     result = {'transformation': 'remove_mean', 'image': transformations.remove_mean(original)}
     results.append(result)
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     results.append(result)
     result = {'transformation': 'gaussian_blur', 'image': transformations.gaussian_blur(original)}
     results.append(result)
-    result = {'transformation': 'low_brightness', 'image': transformations.low_brightness(original)}
+    result = {'transformation': 'low_brightness_negative', 'image': transformations.low_brightness_negative(original)}
     results.append(result)
     result = {'transformation': 'edge_detection', 'image': transformations.edge_detection(original)}
     results.append(result)
@@ -77,13 +77,14 @@ if __name__ == "__main__":
     results.append(result)
     result = {'transformation': 'grayscale', 'image': transformations.grayscale(original)}
     results.append(result)
-    result = {'transformation': 'inverse', 'image': transformations.inverse(original)}
-    results.append(result)
     result = {'transformation': 'posterize', 'image': transformations.posterize(original)}
     results.append(result)
     result = {'transformation': 'solarize', 'image': transformations.solarize(original)}
     results.append(result)
-    result = {'transformation': 'autocontrast', 'image': transformations.autocontrast(original)}
+    result = {'transformation': 'remove_noise', 'image': transformations.remove_noise(original)}
+    results.append(result)
+    result = {'transformation': 'clean_imagemagic', 'image': transformations.clean_imagemagic(filepath)}
     results.append(result)
     for result in results:
-        save_image(result['image'], 'img/output/output-{}.png'.format(result['transformation']))
+        if result['image'] is not None:
+            save_image(result['image'], 'img/output/output-{}.png'.format(result['transformation']))

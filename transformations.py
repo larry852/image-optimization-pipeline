@@ -3,6 +3,7 @@ import cv2
 from PIL import Image, ImageEnhance, ImageOps
 import numpy as np
 from extra import font_and_background_color_independent_text_binarization as text_binarizarion_lib
+import os
 
 
 def remove_mean(image):
@@ -150,7 +151,7 @@ def otsu_thresholding(image):
     return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[-1]
 
 
-def low_brightness(image, delta=-50):
+def low_brightness_negative(image, delta=-50):
     return image - delta
 
 
@@ -282,3 +283,12 @@ def posterize(image):
 def solarize(image):
     image = Image.fromarray(image)
     return np.asarray(ImageOps.solarize(image, threshold=64))
+
+
+def remove_noise(image):
+    return cv2.fastNlMeansDenoisingColored(image, None, 10, 10, 7, 21)
+
+
+def clean_imagemagic(filepath, output='img/output/output-clean_imagemagic.png'):
+    command = 'convert {} -morphology Convolve DoG:15,100,0 -negate -normalize -blur 0x1 -channel RBG -level 60%,91%,0.1 {}'.format(filepath, output)
+    os.system(command)
