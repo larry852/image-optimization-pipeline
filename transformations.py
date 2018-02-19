@@ -268,3 +268,17 @@ def gray_fractionation(image):
 def histogram_equalization(image):
     image = Image.fromarray(image)
     return np.asarray(ImageOps.equalize(image))
+
+
+def grayscale(image):
+    return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+
+def posterize(image):
+    image = Image.fromarray(image)
+    return np.asarray(ImageOps.posterize(image, 1))
+
+
+def solarize(image):
+    image = Image.fromarray(image)
+    return np.asarray(ImageOps.solarize(image, threshold=64))

@@ -75,5 +75,15 @@ if __name__ == "__main__":
     results.append(result)
     result = {'transformation': 'histogram_equalization', 'image': transformations.histogram_equalization(original)}
     results.append(result)
+    result = {'transformation': 'grayscale', 'image': transformations.grayscale(original)}
+    results.append(result)
+    result = {'transformation': 'inverse', 'image': transformations.inverse(original)}
+    results.append(result)
+    result = {'transformation': 'posterize', 'image': transformations.posterize(original)}
+    results.append(result)
+    result = {'transformation': 'solarize', 'image': transformations.solarize(original)}
+    results.append(result)
+    result = {'transformation': 'autocontrast', 'image': transformations.autocontrast(original)}
+    results.append(result)
     for result in results:
         save_image(result['image'], 'img/output/output-{}.png'.format(result['transformation']))
