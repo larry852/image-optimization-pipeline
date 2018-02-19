@@ -3,6 +3,7 @@ import cv2
 from PIL import Image, ImageEnhance, ImageOps
 import numpy as np
 from extra import font_and_background_color_independent_text_binarization as text_binarizarion_lib
+from extra import crop_morphology as crop_morphology_lib
 import os
 
 
@@ -276,3 +277,8 @@ def remove_noise(image):
 def clean_imagemagic(filepath, output='img/output/output-clean_imagemagic.png'):
     command = 'convert {} -morphology Convolve DoG:15,100,0 -negate -normalize -blur 0x1 -channel RBG -level 60%,91%,0.1 {}'.format(filepath, output)
     os.system(command)
+
+
+def crop_morphology(image):
+    image = Image.fromarray(image)
+    return crop_morphology_lib.process_image(image)

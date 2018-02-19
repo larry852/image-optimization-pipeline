@@ -83,6 +83,8 @@ if __name__ == "__main__":
     results.append(result)
     result = {'transformation': 'clean_imagemagic', 'image': transformations.clean_imagemagic(filepath)}
     results.append(result)
+    result = {'transformation': 'crop_morphology', 'image': transformations.crop_morphology(original)}
+    results.append(result)
     for result in results:
         if result['image'] is not None:
             save_image(result['image'], 'img/output/output-{}.png'.format(result['transformation']))
