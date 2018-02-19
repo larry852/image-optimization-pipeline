@@ -37,22 +37,6 @@ def standardize(image, mean=[0.48462227599918, 0.45624044862054, 0.4058836375515
     return image
 
 
-def samele_wise_normalization(data):
-    """
-    normalize each sample to 0-1
-    Input:
-        sample image
-    Output:
-        Normalized sample
-    x=1.0*(x-np.min(x))/(np.max(x)-np.min(x))
-    """
-    data.astype(np.float32)
-    if np.max(data) == np.min(data):
-        return np.ones_like(data, dtype=np.float32) * 1e-6
-    else:
-        return 1.0 * (data - np.min(data)) / (np.max(data) - np.min(data))
-
-
 def contrast_adjust(image, alpha=1.3, beta=20):
     """
     adjust constrast through gamma correction

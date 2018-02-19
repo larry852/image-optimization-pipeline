@@ -29,8 +29,6 @@ if __name__ == "__main__":
     results.append(result)
     result = {'transformation': 'standardize', 'image': transformations.standardize(original)}
     results.append(result)
-    result = {'transformation': 'samele_wise_normalization', 'image': transformations.samele_wise_normalization(original)}
-    results.append(result)
     result = {'transformation': 'contrast_adjust', 'image': transformations.contrast_adjust(original)}
     results.append(result)
     result = {'transformation': 'flip_lr', 'image': transformations.flip(original, True, False)}
