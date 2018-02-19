@@ -37,8 +37,6 @@ if __name__ == "__main__":
     results.append(result)
     result = {'transformation': 'flip_lr_ud', 'image': transformations.flip(original, True, True)}
     results.append(result)
-    result = {'transformation': 'image_random_crop', 'image': transformations.image_crop(original, random_crop=True)}
-    results.append(result)
     result = {'transformation': 'image_pad', 'image': transformations.image_pad(original)}
     results.append(result)
     result = {'transformation': 'image_pad', 'image': transformations.image_pad(original)}

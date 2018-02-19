@@ -70,27 +70,6 @@ def flip(image, lr, ud):
     return image
 
 
-def image_crop(image, crop=None, random_crop=False):
-    """
-    if crop is None crop size is generated with a random size range from [0.5*height,height]
-    if random_crop == True image croped from a random position
-    input:
-        image: image np.ndarray [H,W,C]
-        crop: [target_height,target_width]
-    output:
-        croped image with shape[crop[0],crop[1],C]
-    """
-    hei, wid, _ = image.shape
-    if crop is None:
-        crop = (np.random.randint(int(hei / 2), hei),
-                np.random.randint(int(wid / 2), wid))
-    th, tw = [int(round(x / 2)) for x in crop]
-    if random_crop:
-        th, tw = np.random.randint(
-            0, hei - crop[0] - 1), np.random.randint(0, wid - crop[1] - 1)
-    return image[th:th + crop[0], tw:tw + crop[1]]
-
-
 def image_pad(image, pad_width=None, axis=0, mode='symmetric'):
     """
     pad an image
