@@ -85,4 +85,4 @@ if __name__ == "__main__":
     results.append(result)
     for result in results:
         if result['image'] is not None:
-            save_image(result['image'], 'img/output/output-{}.png'.format(result['transformation']))
+            save_image(result['image'], '../web/static/img/output/output-{}.png'.format(result['transformation']))
