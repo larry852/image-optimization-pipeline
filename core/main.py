@@ -1,6 +1,6 @@
 from PIL import Image
 import numpy as np
-import transformations
+from . import transformations
 import sys
 
 
@@ -21,8 +21,7 @@ def save_image(npdata, outfilename):
     img.save(outfilename)
 
 
-if __name__ == "__main__":
-    filepath = sys.argv[1]
+def main(filepath):
     original = load_image(filepath)
     results = []
     result = {'transformation': 'remove_mean', 'image': transformations.remove_mean(original)}
@@ -85,4 +84,9 @@ if __name__ == "__main__":
     results.append(result)
     for result in results:
         if result['image'] is not None:
-            save_image(result['image'], '../web/static/img/output/output-{}.png'.format(result['transformation']))
+            save_image(result['image'], 'static/img/output/{}.png'.format(result['transformation']))
+
+
+if __name__ == "__main__":
+    filepath = sys.argv[1]
+    main(filepath)

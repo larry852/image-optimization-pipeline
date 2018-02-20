@@ -65,7 +65,9 @@
 		<h4>Total images: {{images|length}}</h4>
 		<div class="col-sm-12">
 			{% for image in images %}
+			<a href="/processing/{{image[1]}}">
 			<img class="thumb" src="{{image[0]}}" title="{{image[1]}}">
+			</a>
 			{% endfor %}
 		</div>
 		<br>
