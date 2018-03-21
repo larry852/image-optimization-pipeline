@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect
-from os import listdir
-from os.path import join
+from os import listdir, unlink
+from os.path import join, dirname, abspath
 from core import main as processing_lib
 
 INPUT_FOLDER = 'static/img/input/'
@@ -34,6 +34,10 @@ def processing(image):
         filepath = [join(app.config['INPUT_FOLDER'], file) for file in listdir(app.config['INPUT_FOLDER']) if file.split('.')[0] == image][0]
     except Exception:
         return redirect(url_for('index'))
+
+    for file in listdir(app.config['OUTPUT_FOLDER']):
+        unlink(dirname(abspath(file)) + '/' + join(app.config['OUTPUT_FOLDER'], file))
+
     processing_lib.main(filepath)
     original = ['/' + filepath, image]
     transformations = [('/' + join(app.config['OUTPUT_FOLDER'], file), file.split('.')[0]) for file in listdir(app.config['OUTPUT_FOLDER']) if allowed_file(file)]

@@ -2,6 +2,7 @@ from PIL import Image
 import numpy as np
 from . import transformations
 import sys
+import uuid
 
 
 def load_image(filepath):
@@ -84,7 +85,8 @@ def main(filepath):
     results.append(result)
     for result in results:
         if result['image'] is not None:
-            save_image(result['image'], 'static/img/output/{}.png'.format(result['transformation']))
+            filename = result['transformation'] + '-' + str(uuid.uuid4()).split('-')[0]
+            save_image(result['image'], 'static/img/output/{}.png'.format(filename))
 
 
 if __name__ == "__main__":
