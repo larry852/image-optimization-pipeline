@@ -59,13 +59,15 @@
 	<div class="col-sm-12">
 		<h4>Original</h4>
 		<div class="col-sm-12">
-			<img class="thumb" src="{{original[0]}}" title="{{original[0]}}">
+			<a href="{{original[0]}}" target="_blank">
+				<img class="thumb" src="{{original[0]}}" title="{{original[0]}}">
+			</a>
 		</div>
 		<br>
 		<h4>Total transformations: {{transformations|length}}</h4>
 		<div class="col-sm-12">
 			{% for transformation in transformations %}
-			<a href="/processing/{{transformation[1]}}">
+			<a href="{{transformation[0]}}" target="_blank">
 			<img class="thumb" src="{{transformation[0]}}" title="{{transformation[1].split('-')[0]}}">
 			</a>
 			{% endfor %}
