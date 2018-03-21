@@ -35,8 +35,7 @@ def processing(image):
     except Exception:
         return redirect(url_for('index'))
 
-    for file in listdir(app.config['OUTPUT_FOLDER']):
-        unlink(dirname(abspath(file)) + '/' + join(app.config['OUTPUT_FOLDER'], file))
+    [unlink(dirname(abspath(file)) + '/' + join(app.config['OUTPUT_FOLDER'], file)) for file in listdir(app.config['OUTPUT_FOLDER']) if allowed_file(file)]
 
     processing_lib.main(filepath)
     original = ['/' + filepath, image]
