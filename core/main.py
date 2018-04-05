@@ -39,8 +39,6 @@ def main(filepath):
     results.append(result)
     result = {'transformation': 'image_pad', 'image': transformations.image_pad(original)}
     results.append(result)
-    result = {'transformation': 'image_pad', 'image': transformations.image_pad(original)}
-    results.append(result)
     result = {'transformation': 'text_binarizarion', 'image': transformations.text_binarizarion(original)}
     results.append(result)
     result = {'transformation': 'gaussian_blur', 'image': transformations.gaussian_blur(original)}
