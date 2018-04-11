@@ -1,14 +1,17 @@
 from itertools import chain, combinations, permutations
 from timeit import default_timer
 import sys
-from . import memory
+try:
+    from . import memory
+except Exception as e:
+    import memory
 
 
-def powerset_list(iterable):
+def get_powerset(iterable):
     return chain.from_iterable(combinations(iterable, r) for r in range(len(iterable) + 1))
 
 
-def permutations_list(iterable):
+def get_permutations(iterable):
     return permutations(iterable)
 
 
@@ -20,13 +23,13 @@ if __name__ == '__main__':
 
         print()
         print('---------------------------------------Permutations---------------------------------------')
-        permutations_result = permutations_list(transformations)
+        permutations_result = get_permutations(transformations)
         # for pipeline in permutations_result:
         #     print(pipeline)
 
         print()
         print('---------------------------------------Powerset---------------------------------------')
-        powerset_result = powerset_list(transformations)
+        powerset_result = get_powerset(transformations)
         # for pipeline in powerset_result:
         #     print(pipeline)
 

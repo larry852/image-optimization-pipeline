@@ -1,7 +1,10 @@
 from PIL import Image
 import numpy as np
-from . import transformations
 import uuid
+try:
+    from . import transformations
+except Exception:
+    import transformations
 
 
 def load_image(filepath):
@@ -21,37 +24,72 @@ def save_image(npdata, outfilename):
     img.save(outfilename)
 
 
-def transformation(name, original, filepath):
-    return {
-        'remove_mean': transformations.remove_mean(original),
-        'standardize': transformations.standardize(original),
-        'contrast_adjust': transformations.contrast_adjust(original),
-        'flip_lr': transformations.flip(original, True, False),
-        'flip_ud': transformations.flip(original, False, True),
-        'flip_lr_ud': transformations.flip(original, True, True),
-        'image_pad': transformations.image_pad(original),
-        'text_binarizarion': transformations.text_binarizarion(original),
-        'gaussian_blur': transformations.gaussian_blur(original),
-        'low_brightness_negative': transformations.low_brightness_negative(original),
-        'edge_detection': transformations.edge_detection(original),
-        'enhance_basic_color': transformations.enhance_basic_color(original),
-        'enhance_basic_contrast': transformations.enhance_basic_contrast(original),
-        'enhance_basic_brightness': transformations.enhance_basic_brightness(original),
-        'enhance_basic_sharpness': transformations.enhance_basic_sharpness(original),
-        'negative': transformations.negative(original),
-        'intensity_increase': transformations.intensity_increase(original),
-        'logarithmic_transformation': transformations.logarithmic_transformation(original),
-        'exponential_transformation': transformations.exponential_transformation(original),
-        'binarization': transformations.binarization(original),
-        'gray_fractionation': transformations.gray_fractionation(original),
-        'histogram_equalization': transformations.histogram_equalization(original),
-        'grayscale': transformations.grayscale(original),
-        'posterize': transformations.posterize(original),
-        'solarize': transformations.solarize(original),
-        'remove_noise': transformations.remove_noise(original),
-        'clean_imagemagic': transformations.clean_imagemagic(filepath),
-        'crop_morphology': transformations.crop_morphology(original),
-    }.get(name, original)
+def transformation(name, image):
+    if name == 'remove_mean':
+        return transformations.remove_mean(image)
+    elif name == 'standardize':
+        return transformations.standardize(image),
+    elif name == 'contrast_adjust':
+        return transformations.contrast_adjust(image)
+    elif name == 'flip_lr':
+        return transformations.flip(image, True, False)
+    elif name == 'flip_ud':
+        return transformations.flip(image, False, True)
+    elif name == 'flip_lr_ud':
+        return transformations.flip(image, True, True)
+    elif name == 'image_pad':
+        return transformations.image_pad(image)
+    elif name == 'text_binarizarion':
+        return transformations.text_binarizarion(image)
+    elif name == 'gaussian_blur':
+        return transformations.gaussian_blur(image)
+    elif name == 'low_brightness_negative':
+        return transformations.low_brightness_negative(image)
+    elif name == 'edge_detection':
+        return transformations.edge_detection(image)
+    elif name == 'enhance_basic_color':
+        return transformations.enhance_basic_color(image)
+    elif name == 'enhance_basic_contrast':
+        return transformations.enhance_basic_contrast(image)
+    elif name == 'enhance_basic_brightness':
+        return transformations.enhance_basic_brightness(image)
+    elif name == 'enhance_basic_sharpness':
+        return transformations.enhance_basic_sharpness(image)
+    elif name == 'negative':
+        return transformations.negative(image)
+    elif name == 'intensity_increase':
+        return transformations.intensity_increase(image)
+    elif name == 'logarithmic_transformation':
+        return transformations.logarithmic_transformation(image)
+    elif name == 'exponential_transformation':
+        return transformations.exponential_transformation(image)
+    elif name == 'binarization':
+        return transformations.binarization(image)
+    elif name == 'gray_fractionation':
+        return transformations.gray_fractionation(image)
+    elif name == 'histogram_equalization':
+        return transformations.histogram_equalization(image)
+    elif name == 'grayscale':
+        return transformations.grayscale(image)
+    elif name == 'posterize':
+        return transformations.posterize(image)
+    elif name == 'solarize':
+        return transformations.solarize(image)
+    elif name == 'remove_noise':
+        return transformations.remove_noise(image)
+    elif name == 'crop_morphology':
+        return transformations.crop_morphology(image)
+    else:
+        return image
+
+
+def pipeline(filepath, steps):
+    image = load_image(filepath)
+    for step in steps:
+        image = transformation(step, image)
+
+    filename = '-'.join(steps) + '-' + str(uuid.uuid4()).split('-')[0]
+    save_image(image, 'static/img/pipelines/{}.png'.format(filename))
 
 
 def individual(filepath):
@@ -117,3 +155,15 @@ def individual(filepath):
         if result['image'] is not None:
             filename = result['transformation'] + '-' + str(uuid.uuid4()).split('-')[0]
             save_image(result['image'], 'static/img/output/{}.png'.format(filename))
+
+
+if __name__ == '__main__':
+    try:
+        from . import iterables_utils
+    except Exception:
+        import iterables_utils
+
+    list_transformations = ['remove_mean', 'standardize', 'contrast_adjust', 'flip_lr', 'flip_ud', 'flip_lr_ud', 'image_pad', 'text_binarizarion', 'gaussian_blur', 'low_brightness_negative', 'edge_detection', 'enhance_basic_color', 'enhance_basic_contrast', 'enhance_basic_brightness', 'enhance_basic_sharpness', 'negative', 'intensity_increase', 'logarithmic_transformation', 'exponential_transformation', 'binarization', 'gray_fractionation', 'histogram_equalization', 'grayscale', 'posterize', 'solarize', 'remove_noise', 'clean_imagemagic', 'crop_morphology']
+    permutations = iterables_utils.get_permutations(list_transformations)
+    for steps in permutations:
+        pipeline('/home/larry/image-optimization-pipeline/static/img/input/1.jpg', steps)
