@@ -1,7 +1,6 @@
 from PIL import Image
 import numpy as np
 from . import transformations
-import sys
 import uuid
 
 
@@ -22,7 +21,40 @@ def save_image(npdata, outfilename):
     img.save(outfilename)
 
 
-def main(filepath):
+def transformation(name, original, filepath):
+    return {
+        'remove_mean': transformations.remove_mean(original),
+        'standardize': transformations.standardize(original),
+        'contrast_adjust': transformations.contrast_adjust(original),
+        'flip_lr': transformations.flip(original, True, False),
+        'flip_ud': transformations.flip(original, False, True),
+        'flip_lr_ud': transformations.flip(original, True, True),
+        'image_pad': transformations.image_pad(original),
+        'text_binarizarion': transformations.text_binarizarion(original),
+        'gaussian_blur': transformations.gaussian_blur(original),
+        'low_brightness_negative': transformations.low_brightness_negative(original),
+        'edge_detection': transformations.edge_detection(original),
+        'enhance_basic_color': transformations.enhance_basic_color(original),
+        'enhance_basic_contrast': transformations.enhance_basic_contrast(original),
+        'enhance_basic_brightness': transformations.enhance_basic_brightness(original),
+        'enhance_basic_sharpness': transformations.enhance_basic_sharpness(original),
+        'negative': transformations.negative(original),
+        'intensity_increase': transformations.intensity_increase(original),
+        'logarithmic_transformation': transformations.logarithmic_transformation(original),
+        'exponential_transformation': transformations.exponential_transformation(original),
+        'binarization': transformations.binarization(original),
+        'gray_fractionation': transformations.gray_fractionation(original),
+        'histogram_equalization': transformations.histogram_equalization(original),
+        'grayscale': transformations.grayscale(original),
+        'posterize': transformations.posterize(original),
+        'solarize': transformations.solarize(original),
+        'remove_noise': transformations.remove_noise(original),
+        'clean_imagemagic': transformations.clean_imagemagic(filepath),
+        'crop_morphology': transformations.crop_morphology(original),
+    }.get(name, original)
+
+
+def individual(filepath):
     original = load_image(filepath)
     results = []
     result = {'transformation': 'remove_mean', 'image': transformations.remove_mean(original)}
@@ -85,8 +117,3 @@ def main(filepath):
         if result['image'] is not None:
             filename = result['transformation'] + '-' + str(uuid.uuid4()).split('-')[0]
             save_image(result['image'], 'static/img/output/{}.png'.format(filename))
-
-
-if __name__ == "__main__":
-    filepath = sys.argv[1]
-    main(filepath)

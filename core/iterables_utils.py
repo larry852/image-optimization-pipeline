@@ -1,7 +1,7 @@
 from itertools import chain, combinations, permutations
 from timeit import default_timer
 import sys
-import memory
+from . import memory
 
 
 def powerset_list(iterable):

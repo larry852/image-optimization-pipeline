@@ -37,7 +37,7 @@ def processing(image):
 
     [unlink(dirname(abspath(file)) + '/' + join(app.config['OUTPUT_FOLDER'], file)) for file in listdir(app.config['OUTPUT_FOLDER']) if allowed_file(file)]
 
-    processing_lib.main(filepath)
+    processing_lib.individual(filepath)
     original = ['/' + filepath, image]
     transformations = [('/' + join(app.config['OUTPUT_FOLDER'], file), file.split('.')[0]) for file in listdir(app.config['OUTPUT_FOLDER']) if allowed_file(file)]
     return render_template('processing.html', original=original, transformations=transformations)

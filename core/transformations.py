@@ -259,6 +259,10 @@ def clean_imagemagic(filepath, output='static/img/output/{}', filename='output-c
     output = output.format(filename)
     command = 'convert {} -morphology Convolve DoG:15,100,0 -negate -normalize -blur 0x1 -channel RBG -level 60%,91%,0.1 {}'.format(filepath, output)
     os.system(command)
+    img = Image.open(output)
+    img.load()
+    data = np.asarray(img)
+    return data
 
 
 def crop_morphology(image):
