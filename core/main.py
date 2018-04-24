@@ -1,6 +1,7 @@
 from PIL import Image
 import numpy as np
 import uuid
+from os import makedirs
 try:
     from . import transformations
 except Exception:
@@ -24,7 +25,8 @@ def save_image(npdata, outfilename):
     img.save(outfilename)
 
 
-def transformation(name, image):
+def transformation(name, filepath):
+    image = load_image(filepath)
     if name == 'remove_mean':
         return transformations.remove_mean(image)
     elif name == 'standardize':
@@ -79,22 +81,22 @@ def transformation(name, image):
         return transformations.remove_noise(image)
     elif name == 'crop_morphology':
         return transformations.crop_morphology(image)
+    elif name == 'clean_imagemagic':
+        return transformations.clean_imagemagic(filepath)
     else:
         print('default')
         return image
 
 
-def pipeline(filepath, steps):
-    path_temp = 'static/img/steps/{}.png'
-    image = load_image(filepath)
+def pipeline(filepath, steps, folder=0):
+    path_temp = 'static/img/pipelines/steps/{}/{}.png'
     for index, step in enumerate(steps):
-        image = transformation(step, image)
+        image = transformation(step, filepath)
         filename = str(index + 1) + '.' + step
-        save_image(image, path_temp.format(filename))
-        image = load_image(path_temp.format(filename))
+        filepath = path_temp.format(folder, filename)
+        save_image(image, filepath)
 
-    filename = 'test'
-    save_image(image, 'static/img/pipelines/{}.png'.format(filename))
+    return image
 
 
 def individual(filepath):
@@ -152,9 +154,9 @@ def individual(filepath):
     results.append(result)
     result = {'transformation': 'remove_noise', 'image': transformations.remove_noise(original)}
     results.append(result)
-    result = {'transformation': 'clean_imagemagic', 'image': transformations.clean_imagemagic(filepath)}
-    results.append(result)
     result = {'transformation': 'crop_morphology', 'image': transformations.crop_morphology(original)}
+    results.append(result)
+    result = {'transformation': 'clean_imagemagic', 'image': transformations.clean_imagemagic(filepath)}
     results.append(result)
     for result in results:
         filename = result['transformation'] + '-' + str(uuid.uuid4()).split('-')[0]
@@ -167,9 +169,13 @@ if __name__ == '__main__':
     except Exception:
         import iterables_utils
 
-    individual('/home/larry/image-optimization-pipeline/static/img/input/1.jpg')
-
-    # list_transformations = ['remove_mean', 'standardize', 'contrast_adjust', 'flip_lr', 'flip_ud', 'flip_lr_ud', 'image_pad', 'text_binarizarion', 'gaussian_blur', 'low_brightness_negative', 'edge_detection', 'enhance_basic_color', 'enhance_basic_contrast', 'enhance_basic_brightness', 'enhance_basic_sharpness', 'negative', 'intensity_increase', 'logarithmic_transformation', 'exponential_transformation', 'binarization', 'gray_fractionation', 'histogram_equalization', 'grayscale', 'posterize', 'solarize', 'remove_noise', 'clean_imagemagic', 'crop_morphology']
-    # permutations = iterables_utils.get_permutations(list_transformations)
-    # for steps in permutations:
-    #     pipeline('/home/larry/image-optimization-pipeline/static/img/input/1.jpg', steps)
+    list_transformations = ['remove_mean', 'standardize', 'contrast_adjust', 'flip_lr', 'flip_ud', 'flip_lr_ud', 'image_pad', 'text_binarizarion', 'gaussian_blur', 'low_brightness_negative', 'edge_detection', 'enhance_basic_color', 'enhance_basic_contrast', 'enhance_basic_brightness', 'enhance_basic_sharpness', 'negative', 'intensity_increase', 'logarithmic_transformation', 'exponential_transformation', 'binarization', 'gray_fractionation', 'histogram_equalization', 'grayscale', 'posterize', 'solarize', 'remove_noise', 'clean_imagemagic', 'crop_morphology']
+    permutations = iterables_utils.get_permutations(list_transformations)
+    for index, steps in enumerate(permutations):
+        folder = index + 1
+        makedirs('static/img/pipelines/steps/{}'.format(folder))
+        try:
+            image = pipeline('/home/larry/image-optimization-pipeline/static/img/input/1.jpg', steps, folder)
+            save_image(image, 'static/img/pipelines/results/{}.png'.format(folder))
+        except Exception:
+            print('Pipeline {} fail.'.format(folder))
