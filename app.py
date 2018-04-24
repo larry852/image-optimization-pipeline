@@ -1,27 +1,20 @@
 from flask import Flask, render_template, request, url_for, redirect
-from os import listdir, unlink
-from os.path import join, dirname, abspath
+from os.path import join
 from core import main as processing_lib
+from . import utils
 
-INPUT_FOLDER = 'static/img/input/'
-OUTPUT_FOLDER = 'static/img/output/'
-ALLOWED_EXTENSIONS = set(['rgb', 'gif', 'pbm', 'pgm', 'ppm', 'tiff', 'rast', 'xbm', 'jpeg', 'bmp', 'png', 'webp', 'exr', 'jpg'])
 
 app = Flask(__name__)
-app.config['INPUT_FOLDER'] = INPUT_FOLDER
-app.config['OUTPUT_FOLDER'] = OUTPUT_FOLDER
-
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+app.config['INPUT_FOLDER'] = 'static/img/input/'
+app.config['OUTPUT_FOLDER'] = 'static/img/output/'
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    images = [('/' + join(app.config['INPUT_FOLDER'], file), file.split('.')[0]) for file in listdir(app.config['INPUT_FOLDER']) if allowed_file(file)]
+    images = utils.get_images(app.config['INPUT_FOLDER'])
     if request.method == 'POST':
-        new_file = request.files['file']
-        if new_file and allowed_file(new_file.filename):
+        new_file = request.files.get('file', None)
+        if new_file is not None and utils.is_allowed_file(new_file.filename):
             filename = str(len(images) + 1) + '.' + new_file.filename.rsplit('.', 1)[1].lower()
             new_file.save(join(app.config['INPUT_FOLDER'], filename))
             return redirect(url_for('processing', image=filename.split('.')[0]))
@@ -30,16 +23,13 @@ def index():
 
 @app.route('/processing/<image>')
 def processing(image):
-    try:
-        filepath = [join(app.config['INPUT_FOLDER'], file) for file in listdir(app.config['INPUT_FOLDER']) if file.split('.')[0] == image][0]
-    except Exception:
+    filepath = utils.get_filepath(app.config['INPUT_FOLDER'], image)
+    if filepath is None:
         return redirect(url_for('index'))
-
-    [unlink(dirname(abspath(file)) + '/' + join(app.config['OUTPUT_FOLDER'], file)) for file in listdir(app.config['OUTPUT_FOLDER']) if allowed_file(file)]
-
+    utils.delete_images(app.config['OUTPUT_FOLDER'])
     processing_lib.individual(filepath)
     original = ['/' + filepath, image]
-    transformations = [('/' + join(app.config['OUTPUT_FOLDER'], file), file.split('.')[0]) for file in listdir(app.config['OUTPUT_FOLDER']) if allowed_file(file)]
+    transformations = utils.get_images(app.config['OUTPUT_FOLDER'])
     return render_template('processing.html', original=original, transformations=transformations)
 
 

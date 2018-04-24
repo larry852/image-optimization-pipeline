@@ -28,7 +28,7 @@ def transformation(name, image):
     if name == 'remove_mean':
         return transformations.remove_mean(image)
     elif name == 'standardize':
-        return transformations.standardize(image),
+        return transformations.standardize(image)
     elif name == 'contrast_adjust':
         return transformations.contrast_adjust(image)
     elif name == 'flip_lr':
@@ -85,15 +85,14 @@ def transformation(name, image):
 
 
 def pipeline(filepath, steps):
-    image = load_image(filepath)
     path_temp = 'static/img/temp/current.png'
+    image = load_image(filepath)
     for step in steps:
-        result = transformation(step, image)
-        filename = str(uuid.uuid4())
-        save_image(result, 'static/img/tmp/{}.png'.format(filename))
-        image = load_image('static/img/tmp/{}.png'.format(filename))
+        result = transformations.standardize(image)
+        save_image(result, path_temp)
+        image = load_image(path_temp)
 
-    filename = '-'.join(steps) + '-' + str(uuid.uuid4()).split('-')[0]
+    filename = ''.join(steps)
     save_image(image, 'static/img/pipelines/{}.png'.format(filename))
 
 
@@ -168,9 +167,10 @@ if __name__ == '__main__':
     except Exception:
         import iterables_utils
 
-    individual()
+    # individual('static/img/temp/current.png')
 
-    # list_transformations = ['remove_mean', 'standardize', 'contrast_adjust', 'flip_lr', 'flip_ud', 'flip_lr_ud', 'image_pad', 'text_binarizarion', 'gaussian_blur', 'low_brightness_negative', 'edge_detection', 'enhance_basic_color', 'enhance_basic_contrast', 'enhance_basic_brightness', 'enhance_basic_sharpness', 'negative', 'intensity_increase', 'logarithmic_transformation', 'exponential_transformation', 'binarization', 'gray_fractionation', 'histogram_equalization', 'grayscale', 'posterize', 'solarize', 'remove_noise', 'clean_imagemagic', 'crop_morphology']
-    # permutations = iterables_utils.get_permutations(list_transformations)
-    # for steps in permutations:
-    #     pipeline('/home/larry/image-optimization-pipeline/static/img/input/1.jpg', steps)
+    list_transformations = ['remove_mean', 'standardize', 'contrast_adjust', 'flip_lr', 'flip_ud', 'flip_lr_ud', 'image_pad', 'text_binarizarion', 'gaussian_blur', 'low_brightness_negative', 'edge_detection', 'enhance_basic_color', 'enhance_basic_contrast', 'enhance_basic_brightness', 'enhance_basic_sharpness', 'negative', 'intensity_increase', 'logarithmic_transformation', 'exponential_transformation', 'binarization', 'gray_fractionation', 'histogram_equalization', 'grayscale', 'posterize', 'solarize', 'remove_noise', 'clean_imagemagic', 'crop_morphology']
+    permutations = iterables_utils.get_permutations(list_transformations)
+    for steps in permutations:
+        pipeline('/home/larry/image-optimization-pipeline/static/img/input/1.jpg', steps)
+        break
