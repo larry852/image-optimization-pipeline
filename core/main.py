@@ -1,6 +1,7 @@
 from PIL import Image
 import numpy as np
 import uuid
+import _thread
 from os import makedirs
 try:
     from . import transformations
@@ -175,7 +176,7 @@ if __name__ == '__main__':
         folder = index + 1
         makedirs('static/img/pipelines/steps/{}'.format(folder))
         try:
-            image = pipeline('/home/larry/image-optimization-pipeline/static/img/input/1.jpg', steps, folder)
+            image = _thread.start_new_thread(pipeline, ('/home/larry/image-optimization-pipeline/static/img/input/1.jpg', steps, folder))
             save_image(image, 'static/img/pipelines/results/{}.png'.format(folder))
         except Exception:
             print('Pipeline {} fail.'.format(folder))
