@@ -165,10 +165,7 @@ def individual(filepath):
 
 
 if __name__ == '__main__':
-    try:
-        from . import iterables_utils
-    except Exception:
-        import iterables_utils
+    import iterables_utils
 
     pool = ThreadPoolExecutor(max_workers=10)
 

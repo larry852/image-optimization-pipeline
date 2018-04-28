@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, url_for, redirect
 from os.path import join
 from core import main as processing_lib
-from . import utils
+import utils
 
 
 app = Flask(__name__)
