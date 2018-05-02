@@ -116,7 +116,7 @@ def gaussian_blur(image):
 
 
 def otsu_thresholding(image):
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = grayscale(image)
     return cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[-1]
 
 
@@ -125,7 +125,7 @@ def low_brightness_negative(image, delta=-50):
 
 
 def edge_detection(image, sigma=0.33):
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = grayscale(image)
     v = np.median(image)
     lower = int(max(0, (1.0 - sigma) * v))
     upper = int(min(255, (1.0 + sigma) * v))
@@ -162,7 +162,7 @@ def negative(image):
 
 
 def intensity_increase(image):
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = grayscale(image)
     rows, columns = image.shape
     result = np.zeros((rows, columns), dtype=np.uint8)
     m = 0.8
@@ -174,7 +174,7 @@ def intensity_increase(image):
 
 
 def logarithmic_transformation(image):
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = grayscale(image)
     rows, columns = image.shape
     result = np.zeros((rows, columns), dtype=np.uint8)
     r = np.max(image)
@@ -186,7 +186,7 @@ def logarithmic_transformation(image):
 
 
 def exponential_transformation(image):
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = grayscale(image)
     rows, columns = image.shape
     result = np.zeros((rows, columns), dtype=np.uint8)
 
@@ -200,7 +200,7 @@ def exponential_transformation(image):
 
 
 def binarization(image):
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = grayscale(image)
     rows, columns = image.shape
     result = np.zeros((rows, columns), dtype=np.uint8)
 
@@ -218,7 +218,7 @@ def binarization(image):
 
 
 def gray_fractionation(image):
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    image = grayscale(image)
     rows, columns = image.shape
     result = np.zeros((rows, columns), dtype=np.uint8)
 
@@ -241,7 +241,10 @@ def histogram_equalization(image):
 
 
 def grayscale(image):
-    return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    try:
+        return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    except Exception:
+        return image
 
 
 def posterize(image):
