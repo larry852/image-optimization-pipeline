@@ -11,7 +11,7 @@ except Exception:
     import transformations
 
 
-logging.basicConfig(filename='log', level=logging.INFO, format='%(asctime)s:%(message)s')
+# logging.basicConfig(filename='log', level=logging.DEBUG, format='%(asctime)s:%(message)s')
 
 
 def load_image(filepath):
@@ -99,7 +99,7 @@ def pipeline(filepath, steps, folder=0):
         try:
             image = transformation(step, filepath)
         except Exception:
-            logging.info('[FAIL] Pipeline {}. Steps {} - Step {}'.format(folder, steps, step))
+            logging.debug('[FAIL] Pipeline {}. Steps {} - Step {}'.format(folder, steps, step))
             return None
         filename = str(index + 1) + '.' + step
         filepath = path_temp.format(folder, filename)
@@ -183,7 +183,7 @@ if __name__ == '__main__':
     def run(folder, steps):
         image = pipeline('/home/larry/image-optimization-pipeline/static/img/input/2.jpg', steps, folder)
         if image is not None:
-            logging.info('[SUCCESS] Pipeline {}. Steps {}'.format(folder, steps))
+            logging.debug('[SUCCESS] Pipeline {}. Steps {}'.format(folder, steps))
             save_image(image, 'static/img/pipelines/results/{}.png'.format(folder))
 
     # list_transformations = ['remove_mean', 'standardize', 'contrast_adjust', 'flip_lr', 'flip_ud', 'flip_lr_ud', 'image_pad', 'text_binarizarion', 'gaussian_blur', 'low_brightness_negative', 'edge_detection', 'enhance_basic_color', 'enhance_basic_contrast', 'enhance_basic_brightness', 'enhance_basic_sharpness', 'negative', 'intensity_increase', 'logarithmic_transformation', 'exponential_transformation', 'binarization', 'gray_fractionation', 'histogram_equalization', 'grayscale', 'posterize', 'solarize', 'remove_noise', 'clean_imagemagic', 'crop_morphology']
@@ -200,4 +200,4 @@ if __name__ == '__main__':
     timeEnd = timer()
     timeTotal = timeEnd - timeStart
 
-    logging.info("[END] Execution time: {} (s)".format(timeTotal))
+    logging.debug("[END] Execution time: {} (s)".format(timeTotal))
