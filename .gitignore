@@ -107,3 +107,5 @@ env_*
 *.jpg
 *.png
 *.jpeg
+
+log
