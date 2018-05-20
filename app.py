@@ -24,10 +24,10 @@ def index():
 @app.route('/processing/<image>')
 def processing(image):
     filepath = utils.get_filepath(app.config['INPUT_FOLDER'], image)
-    if filepath is None:
-        return redirect(url_for('index'))
-    utils.delete_images(app.config['OUTPUT_FOLDER'])
-    processing_lib.individual(filepath)
+    # if filepath is None:
+    #     return redirect(url_for('index'))
+    # utils.delete_images(app.config['OUTPUT_FOLDER'])
+    # processing_lib.individual(filepath)
     original = ['/' + filepath, image]
     transformations = utils.get_images(app.config['OUTPUT_FOLDER'])
     return render_template('processing.html', original=original, transformations=transformations)

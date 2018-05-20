@@ -58,11 +58,14 @@
     <!-- Portfolio Item Row -->
     <div class="col-sm-12">
         <h4>Original</h4>
-        <div class="col-sm-12">
+        <div class="col-sm-6">
             <a href="{{original[0]}}" target="_blank">
                 <img class="thumb" src="{{original[0]}}" title="{{original[0]}}">
             </a>
+            <ul id="selectTransformations"></ul>
         </div>
+
+
         <br>
         <h4>Total transformations: {{transformations|length}}</h4>
         <div class="row">
@@ -71,7 +74,12 @@
                 <a href="{{transformation[0]}}" target="_blank">
                     <img class="col-sm-12 thumb" src="{{transformation[0]}}" title="{{transformation[1].split('-')[0].replace('_', ' ').capitalize()}}">
                 </a>
-                <h5 class="col-sm-12" >{{transformation[1].split('-')[0].replace('_', ' ').capitalize()}}</h5>
+                <h5 class="col-sm-12" >
+                    <input type="checkbox" value="{{transformation[1].split('-')[0]}}" id="{{transformation[1].split('-')[0]}}">
+                    <label for="{{transformation[1].split('-')[0]}}">
+                        {{transformation[1].split('-')[0].replace('_', ' ').capitalize()}}
+                    </label>
+                </h5>
                 <hr>
                 <br><br>
             </div>
@@ -86,6 +94,7 @@
 <!-- Bootstrap core JavaScript -->
 <script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
 <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 </body>
 
