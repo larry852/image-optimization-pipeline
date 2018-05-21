@@ -1,15 +1,15 @@
 from PIL import Image
 import numpy as np
 import uuid
-from concurrent.futures import ThreadPoolExecutor
-from os import makedirs
+from os import makedirs, path
 from shutil import rmtree
 import logging
 try:
     from . import transformations
+    from . import iterables_utils
 except Exception:
     import transformations
-
+    import iterables_utils
 
 # logging.basicConfig(filename='log', level=logging.DEBUG, format='%(asctime)s:%(message)s')
 
@@ -93,7 +93,7 @@ def transformation(name, filepath):
         return image
 
 
-def pipeline(filepath, steps, folder=0):
+def run_pipeline(filepath, steps, folder=0):
     path_temp = 'static/img/pipelines/steps/{}/{}.png'
     for index, step in enumerate(steps):
         try:
@@ -105,6 +105,23 @@ def pipeline(filepath, steps, folder=0):
         filepath = path_temp.format(folder, filename)
         save_image(image, filepath)
     return image
+
+
+def pipeline(filepath, list_transformations):
+    permutations = iterables_utils.get_permutations(list_transformations)
+    steps_directory = 'static/img/pipelines/steps/'
+    if not path.exists(steps_directory):
+        makedirs(steps_directory)
+    else:
+        rmtree(steps_directory)
+        makedirs(steps_directory)
+    for index, steps in enumerate(permutations):
+        folder = index + 1
+        makedirs('static/img/pipelines/steps/{}'.format(folder))
+        image = run_pipeline(filepath, steps, folder)
+        if image is not None:
+            logging.debug('[SUCCESS] Pipeline {}. Steps {}'.format(folder, steps))
+            save_image(image, 'static/img/pipelines/results/{}.png'.format(folder))
 
 
 def individual(filepath):
@@ -172,32 +189,6 @@ def individual(filepath):
 
 
 if __name__ == '__main__':
-    import iterables_utils
-    from timeit import default_timer as timer
-
-    timeStart = timer()
-    # individual('static/img/input/2.jpg')
-
-    pool = ThreadPoolExecutor(max_workers=10)
-
-    def run(folder, steps):
-        image = pipeline('/home/larry/image-optimization-pipeline/static/img/input/2.jpg', steps, folder)
-        if image is not None:
-            logging.debug('[SUCCESS] Pipeline {}. Steps {}'.format(folder, steps))
-            save_image(image, 'static/img/pipelines/results/{}.png'.format(folder))
-
-    # list_transformations = ['remove_mean', 'standardize', 'contrast_adjust', 'flip_lr', 'flip_ud', 'flip_lr_ud', 'image_pad', 'text_binarizarion', 'gaussian_blur', 'low_brightness_negative', 'edge_detection', 'enhance_basic_color', 'enhance_basic_contrast', 'enhance_basic_brightness', 'enhance_basic_sharpness', 'negative', 'intensity_increase', 'logarithmic_transformation', 'exponential_transformation', 'binarization', 'gray_fractionation', 'histogram_equalization', 'grayscale', 'posterize', 'solarize', 'remove_noise', 'clean_imagemagic', 'crop_morphology']
-    list_transformations = ['remove_mean', 'standardize', 'contrast_adjust', 'text_binarizarion', 'gaussian_blur', 'low_brightness_negative', 'edge_detection', 'enhance_basic_color', 'enhance_basic_contrast', 'enhance_basic_brightness', 'enhance_basic_sharpness', 'negative', 'intensity_increase', 'binarization', 'gray_fractionation', 'histogram_equalization', 'grayscale', 'posterize', 'solarize', 'remove_noise', 'clean_imagemagic', 'crop_morphology']
-    permutations = iterables_utils.get_permutations(list_transformations)
-    rmtree('static/img/pipelines/steps/')
-    makedirs('static/img/pipelines/steps/')
-    for index, steps in enumerate(permutations):
-        folder = index + 1
-        makedirs('static/img/pipelines/steps/{}'.format(folder))
-        pool.submit(run, folder, steps)
-    pool.shutdown(wait=True)
-
-    timeEnd = timer()
-    timeTotal = timeEnd - timeStart
-
-    logging.debug("[END] Execution time: {} (s)".format(timeTotal))
+    list_transformations = ['remove_mean', 'standardize']
+    filepath = '/home/larry/image-optimization-pipeline/static/img/input/2.jpg'
+    pipeline(filepath, list_transformations)

@@ -7,6 +7,7 @@ import utils
 app = Flask(__name__)
 app.config['INPUT_FOLDER'] = 'static/img/input/'
 app.config['OUTPUT_FOLDER'] = 'static/img/output/'
+app.config['OUTPUT_FOLDER_PIPELINES'] = 'static/img/pipelines/results'
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -31,6 +32,20 @@ def processing(image):
     original = ['/' + filepath, image]
     transformations = utils.get_images(app.config['OUTPUT_FOLDER'])
     return render_template('processing.html', original=original, transformations=transformations)
+
+
+@app.route('/pipeline/<image>', methods=['GET', 'POST'])
+def pipeline(image):
+    filepath = utils.get_filepath(app.config['INPUT_FOLDER'], image)
+    if filepath is None:
+        return redirect(url_for('index'))
+    utils.delete_images(app.config['OUTPUT_FOLDER_PIPELINES'])
+    # list_transformations = request.form.get('list_transformations')
+    list_transformations = ['remove_mean', 'standardize']
+    processing_lib.pipeline(filepath, list_transformations)
+    original = ['/' + filepath, image]
+    transformations = utils.get_images(app.config['OUTPUT_FOLDER_PIPELINES'])
+    return render_template('pipeline.html', original=original, transformations=transformations)
 
 
 if __name__ == "__main__":

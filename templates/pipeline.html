@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Image Optimization Pipeline - loencontre.co</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename='css/portfolio-item.css') }}" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">Image Optimization Pipeline</a>
+<!--            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+         <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+      </div> -->
+  </div>
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+
+    <!-- Portfolio Item Heading -->
+    <h1 class="my-4">List of transformations
+    </h1>
+
+    <!-- Portfolio Item Row -->
+    <div class="col-sm-12">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4>Original</h4>
+                    <a href="{{original[0]}}" target="_blank">
+                        <img class="thumb" src="{{original[0]}}" title="{{original[0]}}">
+                    </a>                
+                </div>
+                <div class="col-sm-6">
+                    <h4>Selected transformations</h4>
+                    <ul id="selectedTransformations"></ul>
+                    <button id="process-button" type="button" class="btn btn-primary">Process</button>
+                </div>
+            </div>
+        </div>
+
+
+        <br>
+        <h4>Total transformations: {{transformations|length}}</h4>
+        <div class="row">
+            {% for transformation in transformations %}
+            <div class="col-sm-3">
+                <a href="{{transformation[0]}}" target="_blank">
+                    <img class="col-sm-12 thumb" src="{{transformation[0]}}" title="{{transformation[1].split('-')[0].replace('_', ' ').capitalize()}}">
+                </a>
+                <h5 class="col-sm-12" >
+                    <input type="checkbox" value="{{transformation[1].split('-')[0]}}" id="{{transformation[1].split('-')[0]}}">
+                    <label for="{{transformation[1].split('-')[0]}}">
+                        {{transformation[1].split('-')[0].replace('_', ' ').capitalize()}}
+                    </label>
+                </h5>
+                <hr>
+                <br><br>
+            </div>
+            {% endfor %}
+        </div>
+        <br>
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+
+<!-- Bootstrap core JavaScript -->
+<script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+
+</html>
