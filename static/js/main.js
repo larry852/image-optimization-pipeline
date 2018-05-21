@@ -1,3 +1,4 @@
+var selected = [];
 $('input[type="checkbox"]').bind('click', function() {
     selected = [];
     $('#selectedTransformations').html('');
@@ -8,4 +9,7 @@ $('input[type="checkbox"]').bind('click', function() {
         var li = $('<li>');
         li.text(selected[i]).appendTo('#selectedTransformations');
     }
+});
+$("#process-button").click(function() {
+    $.post("/pipeline/1", selected);
 });
