@@ -39,10 +39,11 @@ def pipeline(image):
     filepath = utils.get_filepath(app.config['INPUT_FOLDER'], image)
     if filepath is None:
         return redirect(url_for('index'))
-    utils.delete_images(app.config['OUTPUT_FOLDER_PIPELINES'])
-    # list_transformations = request.form.get('list_transformations')
-    list_transformations = ['remove_mean', 'standardize']
-    processing_lib.pipeline(filepath, list_transformations)
+    if request.method == 'POST':
+        utils.delete_images(app.config['OUTPUT_FOLDER_PIPELINES'])
+        list_transformations = request.form.get('list_transformations').split(',')
+        processing_lib.pipeline(filepath, list_transformations)
+        return redirect(url_for('pipeline', image=image))
     original = ['/' + filepath, image]
     transformations = utils.get_images(app.config['OUTPUT_FOLDER_PIPELINES'])
     return render_template('pipeline.html', original=original, transformations=transformations)

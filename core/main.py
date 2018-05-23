@@ -11,7 +11,7 @@ except Exception:
     import transformations
     import iterables_utils
 
-# logging.basicConfig(filename='log', level=logging.DEBUG, format='%(asctime)s:%(message)s')
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s:%(message)s')
 
 
 def load_image(filepath):

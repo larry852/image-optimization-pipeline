@@ -52,7 +52,7 @@
 <div class="container">
 
     <!-- Portfolio Item Heading -->
-    <h1 class="my-4">List of transformations
+    <h1 class="my-4">List of pipelines
     </h1>
 
     <!-- Portfolio Item Row -->
@@ -70,7 +70,7 @@
 
 
         <br>
-        <h4>Total transformations: {{transformations|length}}</h4>
+        <h4>Total pipelines: {{transformations|length}}</h4>
         <div class="row">
             {% for transformation in transformations %}
             <div class="col-sm-3">
@@ -78,7 +78,6 @@
                     <img class="col-sm-12 thumb" src="{{transformation[0]}}" title="{{transformation[1].split('-')[0].replace('_', ' ').capitalize()}}">
                 </a>
                 <h5 class="col-sm-12" >
-                    <input type="checkbox" value="{{transformation[1].split('-')[0]}}" id="{{transformation[1].split('-')[0]}}">
                     <label for="{{transformation[1].split('-')[0]}}">
                         {{transformation[1].split('-')[0].replace('_', ' ').capitalize()}}
                     </label>
