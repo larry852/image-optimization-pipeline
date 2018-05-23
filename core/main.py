@@ -101,7 +101,7 @@ def run_pipeline(filepath, steps, folder=0):
         except Exception:
             logging.debug('[FAIL] Pipeline {}. Steps {} - Step {}'.format(folder, steps, step))
             return None
-        filename = str(index + 1) + '.' + step + '-' + str(uuid.uuid4()).split('-')[0]
+        filename = str(index + 1) + ')' + step + '-' + str(uuid.uuid4()).split('-')[0]
         filepath = path_temp.format(folder, filename)
         save_image(image, filepath)
     return image

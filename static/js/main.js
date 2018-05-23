@@ -12,7 +12,7 @@ $('input[type="checkbox"]').bind('click', function() {
 });
 $("#process-button").click(function() {
     console.log(selected);
-    post('/pipeline/1', {list_transformations: selected);
+    post('/pipeline/'+$('#original').val(), {list_transformations: selected});
 });
 
 function post(path, params, method) {

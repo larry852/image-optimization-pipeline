@@ -70,17 +70,18 @@
 
 
         <br>
-        <h4>Total pipelines: {{transformations|length}}</h4>
+        <h4>Total pipelines: {{pipelines|length}}</h4>
         <div class="row">
-            {% for transformation in transformations %}
+            {% for pipeline in pipelines %}
             <div class="col-sm-3">
-                <a href="{{transformation[0]}}" target="_blank">
-                    <img class="col-sm-12 thumb" src="{{transformation[0]}}" title="{{transformation[1].split('-')[0].replace('_', ' ').capitalize()}}">
+                <a href="{{pipeline[0]}}" target="_blank">
+                    <img class="col-sm-12 thumb" src="{{pipeline[0]}}" title="{{pipeline[1].split('-')[0].replace('_', ' ').capitalize()}}">
                 </a>
                 <h5 class="col-sm-12" >
-                    <label for="{{transformation[1].split('-')[0]}}">
-                        {{transformation[1].split('-')[0].replace('_', ' ').capitalize()}}
+                    <label for="{{pipeline[1].split('-')[0]}}">
+                        {{pipeline[1].split('-')[0].replace('_', ' ').capitalize()}}
                     </label>
+                    <a href="/steps/{{original[1]}}/{{pipeline[1].split('-')[0].replace('_', ' ').capitalize()}}" target="_blank"> Steps</a>
                 </h5>
                 <hr>
                 <br><br>

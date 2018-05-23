@@ -45,8 +45,18 @@ def pipeline(image):
         processing_lib.pipeline(filepath, list_transformations)
         return redirect(url_for('pipeline', image=image))
     original = ['/' + filepath, image]
-    transformations = utils.get_images(app.config['OUTPUT_FOLDER_PIPELINES'])
-    return render_template('pipeline.html', original=original, transformations=transformations)
+    pipelines = utils.get_images(app.config['OUTPUT_FOLDER_PIPELINES'])
+    pipelines.reverse()
+    return render_template('pipeline.html', original=original, pipelines=pipelines)
+
+
+@app.route('/steps/<original>/<folder>/', methods=['GET'])
+def steps(original, folder):
+    filepath = utils.get_filepath(app.config['INPUT_FOLDER'], original)
+    original = ['/' + filepath, original]
+    steps = utils.get_images('static/img/pipelines/steps/{}'.format(folder))
+    steps.reverse()
+    return render_template('steps.html', original=original, steps=steps)
 
 
 if __name__ == "__main__":
