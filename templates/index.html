@@ -8,7 +8,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 
-	<title>Image Optimization Pipeline - loencontre.co</title>
+	<title>Pipeline de optimización de imagen</title>
 
 	<!-- Bootstrap core CSS -->
 	<link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -23,7 +23,7 @@
 	<!-- Navigation -->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="/">Image Optimization Pipeline</a>
+			<a class="navbar-brand" href="/">Pipeline de optimización de imagen</a>
 <!--			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -52,17 +52,17 @@
 <div class="container">
 
 	<!-- Portfolio Item Heading -->
-	<h1 class="my-4">Load or select image
+	<h1 class="my-4">Cargar o seleccionar imagen
 	</h1>
 
 	<!-- Portfolio Item Row -->
 	<div class="col-sm-12">
 		<form class="form-inline" method="POST" action="{{ url_for('index') }}" enctype="multipart/form-data"> 
 			<input id="file" name="file" type="file" class="form-control mb-2 mr-sm-2" required>
-			<button type="submit" class="btn btn-primary mb-2">Submit</button>
+			<button type="submit" class="btn btn-primary mb-2">Subir</button>
 		</form>
 		<br>
-		<h4>Total images: {{images|length}}</h4>
+		<h4>Imagenes totales: {{images|length}}</h4>
 		<div class="col-sm-12">
 			{% for image in images %}
 			<a href="/processing/{{image[1]}}">

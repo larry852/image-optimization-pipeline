@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Image Optimization Pipeline - loencontre.co</title>
+    <title>Pipeline de optimización de imagen</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -23,7 +23,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="/">Image Optimization Pipeline</a>
+            <a class="navbar-brand" href="/">Pipeline de optimización de imagen</a>
 <!--            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -52,7 +52,7 @@
 <div class="container">
 
     <!-- Portfolio Item Heading -->
-    <h1 class="my-4">Lista de trasnformaciones
+    <h1 class="my-4">Lista de transformaciones
     </h1>
 
     <!-- Portfolio Item Row -->
@@ -67,16 +67,16 @@
                     <input type="hidden" id="original" value="{{original[1]}}">    
                 </div>
                 <div class="col-sm-6">
-                    <h4>Selected transformations</h4>
+                    <h4>Transformaciones seleccionadas</h4>
                     <ul id="selectedTransformations"></ul>
-                    <button id="process-button" type="button" class="btn btn-primary">Process</button>
+                    <button id="process-button" type="button" class="btn btn-primary">Procesar</button>
                 </div>
             </div>
         </div>
 
 
         <br>
-        <h4>Total transformations: {{transformations|length}}</h4>
+        <h4>Transformaciones totales: {{transformations|length}}</h4>
         <div class="row">
             {% for transformation in transformations %}
             <div class="col-sm-3">
