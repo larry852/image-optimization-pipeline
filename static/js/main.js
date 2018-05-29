@@ -36,3 +36,17 @@ function post(path, params, method) {
     document.body.appendChild(form);
     form.submit();
 }
+
+$("#ocr-button").click(function(){
+
+    request = $.ajax({
+        url: "/ocr",
+        type: "post",
+        data: [{'text': $('#text').val()}]
+    });
+
+    request.done(function (response, textStatus, jqXHR){
+        console.log(response)
+        console.log("Hooray, it worked!");
+    });
+});

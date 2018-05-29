@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, jsonify
 from os.path import join
 from core import main as processing_lib
+from core import ocr
 import utils
 import uuid
 
@@ -50,11 +51,23 @@ def pipeline(image):
     pipelines = utils.get_images(app.config['OUTPUT_FOLDER_PIPELINES'])
     steps_count = utils.count_folders(app.config['OUTPUT_FOLDER_STEPS'])
     for index in range(1, steps_count):
-        print('hola')
         if next((x for x in pipelines if int(x[1].split('-')[0]) == index), None) is None:
             pipelines.append(('/static/img/fail.jpg', '{}-{}'.format(index, str(uuid.uuid4()).split('-')[0])))
     pipelines.sort(key=lambda x: int(x[1].split('-')[0]))
     return render_template('pipeline.html', original=original, pipelines=pipelines)
+
+
+@app.route('/ocr', methods=['POST'])
+def get_ocr():
+    text = request.form.get('text', 'test')
+    print(text)
+    pipelines = utils.get_images(app.config['OUTPUT_FOLDER_PIPELINES'])
+    results = []
+    for pipeline in pipelines:
+        result_text, percentage = ocr.compare(text, utils.get_filepath(app.config['INPUT_FOLDER'], pipeline[1]))
+        results.append({'result_text': result_text, 'percentage': percentage})
+    print(results)
+    return jsonify(results)
 
 
 @app.route('/steps/<original>/<folder>/', methods=['GET'])
