@@ -46,7 +46,7 @@ def pipeline(image):
         return redirect(url_for('pipeline', image=image))
     original = ['/' + filepath, image]
     pipelines = utils.get_images(app.config['OUTPUT_FOLDER_PIPELINES'])
-    pipelines.reverse()
+    pipelines.sort(key=lambda x: x[1])
     return render_template('pipeline.html', original=original, pipelines=pipelines)
 
 
@@ -55,7 +55,7 @@ def steps(original, folder):
     filepath = utils.get_filepath(app.config['INPUT_FOLDER'], original)
     original = ['/' + filepath, original]
     steps = utils.get_images('static/img/pipelines/steps/{}'.format(folder))
-    steps.reverse()
+    steps.sort(key=lambda x: x[1])
     return render_template('steps.html', original=original, steps=steps)
 
 
