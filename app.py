@@ -2,12 +2,14 @@ from flask import Flask, render_template, request, url_for, redirect
 from os.path import join
 from core import main as processing_lib
 import utils
+import uuid
 
 
 app = Flask(__name__)
 app.config['INPUT_FOLDER'] = 'static/img/input/'
 app.config['OUTPUT_FOLDER'] = 'static/img/output/'
 app.config['OUTPUT_FOLDER_PIPELINES'] = 'static/img/pipelines/results'
+app.config['OUTPUT_FOLDER_STEPS'] = 'static/img/pipelines/steps'
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -46,7 +48,12 @@ def pipeline(image):
         return redirect(url_for('pipeline', image=image))
     original = ['/' + filepath, image]
     pipelines = utils.get_images(app.config['OUTPUT_FOLDER_PIPELINES'])
-    pipelines.sort(key=lambda x: x[1])
+    steps_count = utils.count_folders(app.config['OUTPUT_FOLDER_STEPS'])
+    for index in range(1, steps_count):
+        print('hola')
+        if next((x for x in pipelines if int(x[1].split('-')[0]) == index), None) is None:
+            pipelines.append(('/static/img/fail.jpg', '{}-{}'.format(index, str(uuid.uuid4()).split('-')[0])))
+    pipelines.sort(key=lambda x: int(x[1].split('-')[0]))
     return render_template('pipeline.html', original=original, pipelines=pipelines)
 
 
@@ -55,7 +62,7 @@ def steps(original, folder):
     filepath = utils.get_filepath(app.config['INPUT_FOLDER'], original)
     original = ['/' + filepath, original]
     steps = utils.get_images('static/img/pipelines/steps/{}'.format(folder))
-    steps.sort(key=lambda x: x[1])
+    steps.sort(key=lambda x: int(x[1].split(')')[0]))
     return render_template('steps.html', original=original, steps=steps)
 
 

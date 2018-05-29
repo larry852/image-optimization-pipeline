@@ -21,3 +21,7 @@ def get_filepath(folder, filename):
         return [join(folder, file) for file in listdir(folder) if file.split('.')[0] == filename][0]
     except Exception:
         return None
+
+
+def count_folders(folder):
+    return len(listdir(folder))
