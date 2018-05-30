@@ -60,13 +60,12 @@ def pipeline(image):
 @app.route('/ocr', methods=['POST'])
 def get_ocr():
     text = request.form.get('text', 'test')
-    print(text)
     pipelines = utils.get_images(app.config['OUTPUT_FOLDER_PIPELINES'])
+    pipelines.sort(key=lambda x: int(x[1].split('-')[0]))
     results = []
     for pipeline in pipelines:
-        result_text, percentage = ocr.compare(text, utils.get_filepath(app.config['INPUT_FOLDER'], pipeline[1]))
-        results.append({'result_text': result_text, 'percentage': percentage})
-    print(results)
+        result_text, percentage = ocr.compare(text, utils.get_filepath(app.config['OUTPUT_FOLDER_PIPELINES'], pipeline[1]))
+        results.append({'pipeline': pipeline[1].split('-')[0], 'original': text, 'result': result_text, 'percentage': percentage})
     return jsonify(results)
 
 

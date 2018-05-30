@@ -42,11 +42,10 @@ $("#ocr-button").click(function(){
     request = $.ajax({
         url: "/ocr",
         type: "post",
-        data: [{'text': $('#text').val()}]
+        data: {'text': $('#text').val()}
     });
 
     request.done(function (response, textStatus, jqXHR){
         console.log(response)
-        console.log("Hooray, it worked!");
     });
 });

@@ -4,7 +4,6 @@ from fuzzywuzzy import fuzz
 
 
 def compare(text, path):
-    print(text, path)
     result = Image.open(path)
     result_text = pytesseract.image_to_string(result, lang='spa')
     return result_text, fuzz.token_set_ratio(text, result_text)
