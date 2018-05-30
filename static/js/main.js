@@ -1,4 +1,5 @@
 var selected = [];
+var results = [];
 $('input[type="checkbox"]').bind('click', function() {
     selected = [];
     $('#selectedTransformations').html('');
@@ -12,40 +13,52 @@ $('input[type="checkbox"]').bind('click', function() {
 });
 $("#process-button").click(function() {
     console.log(selected);
-    post('/pipeline/'+$('#original').val(), {list_transformations: selected});
+    post('/pipeline/' + $('#original').val(), {
+        list_transformations: selected
+    });
 });
 
 function post(path, params, method) {
     method = method || "post";
-
     var form = document.createElement("form");
     form.setAttribute("method", method);
     form.setAttribute("action", path);
-
-    for(var key in params) {
-        if(params.hasOwnProperty(key)) {
+    for (var key in params) {
+        if (params.hasOwnProperty(key)) {
             var hiddenField = document.createElement("input");
             hiddenField.setAttribute("type", "hidden");
             hiddenField.setAttribute("name", key);
             hiddenField.setAttribute("value", params[key]);
-
             form.appendChild(hiddenField);
         }
     }
-
     document.body.appendChild(form);
     form.submit();
 }
-
-$("#ocr-button").click(function(){
-
+$("#ocr-button").click(function() {
     request = $.ajax({
         url: "/ocr",
         type: "post",
-        data: {'text': $('#text').val()}
+        data: {
+            'text': $('#text').val()
+        }
     });
-
-    request.done(function (response, textStatus, jqXHR){
-        console.log(response)
+    request.done(function(response, textStatus, jqXHR) {
+        console.log(response);
+        ocr_table(response);
     });
 });
+
+function ocr_table(results) {
+    var container = $('#ocr-table');
+    container.html('');
+    table = $('<table class="table table-bordered table-hover"><thead class="thead-dark"><tr><th>#</th><th>Texto original</th><th>Texto resultado</th><th>%</th></tr></thead>');
+    results.forEach(function(result) {
+        var tr = $('<tr>');
+        ['pipeline', 'original', 'result', 'percentage'].forEach(function(attr) {
+            tr.append('<td>' + result[attr] + '</td>');
+        });
+        table.append(tr);
+    });
+    container.append(table);
+}

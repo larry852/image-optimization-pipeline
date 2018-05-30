@@ -52,7 +52,7 @@ def pipeline(image):
     original = ['/' + filepath, image]
     pipelines = utils.get_images(app.config['OUTPUT_FOLDER_PIPELINES'])
     steps_count = utils.count_folders(app.config['OUTPUT_FOLDER_STEPS'])
-    for index in range(1, steps_count):
+    for index in range(1, steps_count + 1):
         if next((x for x in pipelines if int(x[1].split('-')[0]) == index), None) is None:
             pipelines.append(('/static/img/fail.jpg', '{}-{}'.format(index, str(uuid.uuid4()).split('-')[0])))
     pipelines.sort(key=lambda x: int(x[1].split('-')[0]))
@@ -61,7 +61,7 @@ def pipeline(image):
 
 @app.route('/ocr', methods=['POST'])
 def get_ocr():
-    text = request.form.get('text', 'test')
+    text = request.form.get('text', '')
     pipelines = utils.get_images(app.config['OUTPUT_FOLDER_PIPELINES'])
     pipelines.sort(key=lambda x: int(x[1].split('-')[0]))
     results = []

@@ -38,18 +38,26 @@
     <div class="col-sm-12">
         <div class="container">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-3">
                     <h4>Original</h4>
                     <a href="{{original[0]}}" target="_blank">
                         <img class="thumb" src="{{original[0]}}" title="{{original[0]}}">
                     </a>                
                 </div>
-                <div class="col-sm-6">
-                    <h4>Análisis OCR</h4>
-                    <input type="text" name="text" id="text">
-                    <button id="ocr-button" type="button" class="btn btn-primary">Procesar</button>
-                    {# <ul id="selectedTransformations"></ul> #}
-                    <div id="div1"></div>
+                <div class="col-sm-9">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <h4>Análisis OCR</h4>
+                                <textarea rows="4" cols="50" type="text" name="text" id="text"></textarea>
+                                <button id="ocr-button" type="button" class="btn btn-primary">Analizar</button>                                
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div id="ocr-table" class="table-responsive"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
