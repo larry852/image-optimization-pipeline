@@ -4,6 +4,7 @@ from core import main as processing_lib
 from core import ocr
 import utils
 import uuid
+from operator import itemgetter
 
 
 app = Flask(__name__)
@@ -68,6 +69,7 @@ def get_ocr():
     for pipeline in pipelines:
         result_text, percentage = ocr.compare(text, utils.get_filepath(app.config['OUTPUT_FOLDER_PIPELINES'], pipeline[1]))
         results.append({'pipeline': pipeline[1].split('-')[0], 'original': text, 'result': result_text, 'percentage': percentage})
+    results = sorted(results, key=itemgetter('percentage'), reverse=True)
     return jsonify(results)
 
 
