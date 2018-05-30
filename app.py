@@ -16,6 +16,7 @@ app.config['OUTPUT_FOLDER_STEPS'] = 'static/img/pipelines/steps'
 @app.route('/', methods=['GET', 'POST'])
 def index():
     images = utils.get_images(app.config['INPUT_FOLDER'])
+    images.sort(key=lambda x: int(x[1]), reverse=True)
     if request.method == 'POST':
         new_file = request.files.get('file', None)
         if new_file is not None and utils.is_allowed_file(new_file.filename):
@@ -34,6 +35,7 @@ def processing(image):
     processing_lib.individual(filepath)
     original = ['/' + filepath, image]
     transformations = utils.get_images(app.config['OUTPUT_FOLDER'])
+    transformations.sort(key=lambda x: x[1])
     return render_template('processing.html', original=original, transformations=transformations)
 
 
