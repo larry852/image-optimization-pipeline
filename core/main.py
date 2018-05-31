@@ -47,8 +47,8 @@ def transformation(name, filepath):
         return transformations.flip(image, True, True)
     elif name == 'image_pad':
         return transformations.image_pad(image)
-    elif name == 'text_binarizarion':
-        return transformations.text_binarizarion(image)
+    elif name == 'text_binarization':
+        return transformations.text_binarization(image)
     elif name == 'gaussian_blur':
         return transformations.gaussian_blur(image)
     elif name == 'low_brightness_negative':
@@ -142,7 +142,7 @@ def individual(filepath):
     results.append(result)
     result = {'transformation': 'image_pad', 'image': transformations.image_pad(original)}
     results.append(result)
-    result = {'transformation': 'text_binarizarion', 'image': transformations.text_binarizarion(original)}
+    result = {'transformation': 'text_binarization', 'image': transformations.text_binarization(original)}
     results.append(result)
     result = {'transformation': 'gaussian_blur', 'image': transformations.gaussian_blur(original)}
     results.append(result)
@@ -187,9 +187,3 @@ def individual(filepath):
     for result in results:
         filename = result['transformation'] + '-' + str(uuid.uuid4()).split('-')[0]
         save_image(result['image'], 'static/img/output/{}.png'.format(filename))
-
-
-if __name__ == '__main__':
-    list_transformations = ['remove_mean', 'standardize']
-    filepath = '/home/larry/image-optimization-pipeline/static/img/input/2.jpg'
-    pipeline(filepath, list_transformations)

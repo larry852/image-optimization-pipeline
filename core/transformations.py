@@ -5,10 +5,10 @@ import numpy as np
 import os
 import uuid
 try:
-    from .extra_lib import font_and_background_color_independent_text_binarization as text_binarizarion_lib
+    from .extra_lib import font_and_background_color_independent_text_binarization as text_binarization_lib
     from .extra_lib import crop_morphology as crop_morphology_lib
 except Exception:
-    from extra_lib import font_and_background_color_independent_text_binarization as text_binarizarion_lib
+    from extra_lib import font_and_background_color_independent_text_binarization as text_binarization_lib
     from extra_lib import crop_morphology as crop_morphology_lib
 
 
@@ -107,8 +107,8 @@ def image_pad(image, pad_width=None, axis=0, mode='symmetric'):
     return cv2.resize(newimage, (wid, hei), interpolation=cv2.INTER_NEAREST)
 
 
-def text_binarizarion(image):
-    return text_binarizarion_lib.main(image)
+def text_binarization(image):
+    return text_binarization_lib.main(image)
 
 
 def gaussian_blur(image):
