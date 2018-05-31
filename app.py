@@ -60,8 +60,11 @@ def pipeline(image):
     return render_template('pipeline.html', original=original, pipelines=pipelines)
 
 
-@app.route('/ocr', methods=['POST'])
-def get_ocr():
+@app.route('/ocr/<image>', methods=['POST'])
+def get_ocr(image):
+    filepath = utils.get_filepath(app.config['INPUT_FOLDER'], image)
+    if filepath is None:
+        return redirect(url_for('index'))
     text = request.form.get('text', '')
     pipelines = utils.get_images(app.config['OUTPUT_FOLDER_PIPELINES'])
     pipelines.sort(key=lambda x: int(x[1].split('-')[0]))
@@ -70,6 +73,9 @@ def get_ocr():
         result_text, percentage = ocr.compare(text, utils.get_filepath(app.config['OUTPUT_FOLDER_PIPELINES'], pipeline[1]))
         results.append({'pipeline': pipeline[1].split('-')[0], 'original': text, 'result': result_text, 'percentage': percentage})
     results = sorted(results, key=itemgetter('percentage'), reverse=True)
+
+    result_text, percentage = ocr.compare(text, filepath)
+    results.insert(0, {'pipeline': 'original', 'original': text, 'result': result_text, 'percentage': percentage})
     return jsonify(results)
 
 

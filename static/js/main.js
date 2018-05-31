@@ -37,7 +37,7 @@ function post(path, params, method) {
 }
 $("#ocr-button").click(function() {
     request = $.ajax({
-        url: "/ocr",
+        url: "/ocr/" + $('#original').val(),
         type: "post",
         data: {
             'text': $('#text').val()
