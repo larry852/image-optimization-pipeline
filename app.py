@@ -55,7 +55,7 @@ def pipeline(image):
     steps_count = utils.count_folders(app.config['OUTPUT_FOLDER_STEPS'])
     for index in range(1, steps_count + 1):
         if next((x for x in pipelines if int(x[1].split('-')[0]) == index), None) is None:
-            pipelines.append(('/static/img/fail.jpg', '{}-{}'.format(index, str(uuid.uuid4()).split('-')[0])))
+            pipelines.append(('/static/img/fail.gif', '{}-{}'.format(index, str(uuid.uuid4()).split('-')[0])))
     pipelines.sort(key=lambda x: int(x[1].split('-')[0]))
     return render_template('pipeline.html', original=original, pipelines=pipelines)
 
