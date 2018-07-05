@@ -260,7 +260,6 @@ def clean_imagemagic(filepath, output='static/img/output/{}.png'):
     filename = str(uuid.uuid4()).split('-')[0]
     output = output.format(filename)
     command = 'convert {} -morphology Convolve DoG:15,100,0 -negate -normalize -blur 0x1 -channel RBG -level 60%,91%,0.1 {}'.format(filepath.replace(')', '\)'), output)
-    print(command)
     os.system(command)
     img = Image.open(output)
     img.load()
