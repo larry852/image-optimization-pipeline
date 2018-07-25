@@ -6,8 +6,8 @@
 # Required-Stop:     $local_fs $network $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Admin api
-# Description:       Admin api
+# Short-Description: pipeline
+# Description:       pipeline
 ### END INIT INFO
 
 NAME="pipeline"
