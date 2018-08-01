@@ -5,6 +5,7 @@ from core import ocr
 import utils
 import uuid
 from operator import itemgetter
+import json
 
 
 app = Flask(__name__)
@@ -27,37 +28,46 @@ def upload():
     if new_file is not None and utils.is_allowed_file(new_file.filename):
         filename = str(len(images) + 1) + '.' + new_file.filename.rsplit('.', 1)[1].lower()
         new_file.save(join(app.config['INPUT_FOLDER'], filename))
-        response = jsonify(filename.split('.')[0])
+        response = jsonify({'success': True, 'id': int(filename.split('.')[0])})
         response.status_code = 200
         return response
-    response = jsonify("Invalid image file")
+    response = jsonify({'success': False, 'message': 'Invalid image file'})
     response.status_code = 400
     return response
 
 
-@app.route('/processing/<image>')
+@app.route('/processing/<image>', methods=['GET'])
 def processing(image):
     filepath = utils.get_filepath(app.config['INPUT_FOLDER'], image)
     if filepath is None:
-        return redirect(url_for('upload'))
+        response = jsonify({'success': False, 'message': 'Image not found'})
+        response.status_code = 404
+        return response
     utils.delete_images(app.config['OUTPUT_FOLDER'])
     processing_lib.individual(filepath)
     original = ['/' + filepath, image]
     transformations = utils.get_images(app.config['OUTPUT_FOLDER'])
     transformations.sort(key=lambda x: x[1])
-    return render_template('processing.html', original=original, transformations=transformations)
+    response = jsonify({'success': True, 'original': original, 'transformations': transformations})
+    response.status_code = 200
+    return response
 
 
-@app.route('/pipeline/<image>', methods=['GET', 'POST'])
+@app.route('/pipeline/<image>', methods=['POST'])
 def pipeline(image):
     filepath = utils.get_filepath(app.config['INPUT_FOLDER'], image)
     if filepath is None:
-        return redirect(url_for('upload'))
-    if request.method == 'POST':
-        utils.delete_images(app.config['OUTPUT_FOLDER_PIPELINES'])
-        list_transformations = request.form.get('list_transformations').split(',')
-        processing_lib.pipeline(filepath, list_transformations)
-        return redirect(url_for('pipeline', image=image))
+        response = jsonify({'success': False, 'message': 'Image not found'})
+        response.status_code = 404
+        return response
+    utils.delete_images(app.config['OUTPUT_FOLDER_PIPELINES'])
+    data = request.get_json()
+    list_transformations = data.get('list_transformations')
+    if list_transformations is None:
+        response = jsonify({'success': False, 'message': 'List of transformations is required'})
+        response.status_code = 404
+        return response
+    processing_lib.pipeline(filepath, list_transformations)
     original = ['/' + filepath, image]
     pipelines = utils.get_images(app.config['OUTPUT_FOLDER_PIPELINES'])
     steps_count = utils.count_folders(app.config['OUTPUT_FOLDER_STEPS'])
@@ -65,7 +75,9 @@ def pipeline(image):
         if next((x for x in pipelines if int(x[1].split('-')[0]) == index), None) is None:
             pipelines.append(('/static/img/fail.gif', '{}-{}'.format(index, str(uuid.uuid4()).split('-')[0])))
     pipelines.sort(key=lambda x: int(x[1].split('-')[0]))
-    return render_template('pipeline.html', original=original, pipelines=pipelines)
+    response = jsonify({'success': True, 'original': original, 'pipelines': pipelines})
+    response.status_code = 200
+    return response
 
 
 @app.route('/ocr/<image>', methods=['POST'])
