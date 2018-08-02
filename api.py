@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, request, jsonify
 from os.path import join
 from core import main as processing_lib
 from core import ocr
@@ -50,8 +50,8 @@ def processing(image):
     return response
 
 
-@app.route('/pipeline/<image>', methods=['POST'])
-def pipeline(image):
+@app.route('/pipelines/<image>', methods=['POST'])
+def get_pipelines(image):
     filepath = utils.get_filepath(app.config['INPUT_FOLDER'], image)
     if filepath is None:
         return not_found_error()
@@ -62,6 +62,30 @@ def pipeline(image):
         response.status_code = 404
         return response
     processing_lib.pipeline(filepath, list_transformations)
+    original = ['/' + filepath, image]
+    pipelines = utils.get_images(app.config['OUTPUT_FOLDER_PIPELINES'])
+    steps_count = utils.count_folders(app.config['OUTPUT_FOLDER_STEPS'])
+    for index in range(1, steps_count + 1):
+        if next((x for x in pipelines if int(x[1].split('-')[0]) == index), None) is None:
+            pipelines.append(('/static/img/fail.gif', '{}-{}'.format(index, str(uuid.uuid4()).split('-')[0])))
+    pipelines.sort(key=lambda x: int(x[1].split('-')[0]))
+    response = jsonify({'success': True, 'original': original, 'pipelines': pipelines})
+    response.status_code = 200
+    return response
+
+
+@app.route('/pipeline/<image>', methods=['POST'])
+def get_pipeline(image):
+    filepath = utils.get_filepath(app.config['INPUT_FOLDER'], image)
+    if filepath is None:
+        return not_found_error()
+    utils.delete_images(app.config['OUTPUT_FOLDER_PIPELINES'])
+    steps = request.get_json().get('steps')
+    if steps is None:
+        response = jsonify({'success': False, 'message': 'Field "steps" is required'})
+        response.status_code = 404
+        return response
+    processing_lib.pipeline_individual(filepath, steps)
     original = ['/' + filepath, image]
     pipelines = utils.get_images(app.config['OUTPUT_FOLDER_PIPELINES'])
     steps_count = utils.count_folders(app.config['OUTPUT_FOLDER_STEPS'])

@@ -125,6 +125,23 @@ def pipeline(filepath, list_transformations):
             save_image(image, 'static/img/pipelines/results/{}.png'.format(filename))
 
 
+def pipeline_individual(filepath, steps):
+    steps_directory = 'static/img/pipelines/steps/'
+    if not path.exists(steps_directory):
+        makedirs(steps_directory)
+    else:
+        rmtree(steps_directory)
+        makedirs(steps_directory)
+
+    folder = 1
+    makedirs('static/img/pipelines/steps/{}'.format(folder))
+    image = run_pipeline(filepath, steps, folder)
+    if image is not None:
+        logging.debug('[SUCCESS] Pipeline {}. Steps {}'.format(folder, steps))
+        filename = str(folder) + '-' + str(uuid.uuid4()).split('-')[0]
+        save_image(image, 'static/img/pipelines/results/{}.png'.format(filename))
+
+
 def individual(filepath):
     original = load_image(filepath)
     results = []
