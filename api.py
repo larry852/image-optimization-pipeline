@@ -1,11 +1,10 @@
-from flask import Flask, render_template, request, url_for, redirect, jsonify
+from flask import Flask, render_template, request, jsonify
 from os.path import join
 from core import main as processing_lib
 from core import ocr
 import utils
 import uuid
 from operator import itemgetter
-import json
 
 
 app = Flask(__name__)
@@ -28,7 +27,7 @@ def upload():
     if new_file is not None and utils.is_allowed_file(new_file.filename):
         filename = str(len(images) + 1) + '.' + new_file.filename.rsplit('.', 1)[1].lower()
         new_file.save(join(app.config['INPUT_FOLDER'], filename))
-        response = jsonify({'success': True, 'id': int(filename.split('.')[0])})
+        response = jsonify({'success': True, 'id': filename.split('.')[0]})
         response.status_code = 200
         return response
     response = jsonify({'success': False, 'message': 'Invalid image file'})
@@ -40,9 +39,7 @@ def upload():
 def processing(image):
     filepath = utils.get_filepath(app.config['INPUT_FOLDER'], image)
     if filepath is None:
-        response = jsonify({'success': False, 'message': 'Image not found'})
-        response.status_code = 404
-        return response
+        return not_found_error()
     utils.delete_images(app.config['OUTPUT_FOLDER'])
     processing_lib.individual(filepath)
     original = ['/' + filepath, image]
@@ -57,14 +54,11 @@ def processing(image):
 def pipeline(image):
     filepath = utils.get_filepath(app.config['INPUT_FOLDER'], image)
     if filepath is None:
-        response = jsonify({'success': False, 'message': 'Image not found'})
-        response.status_code = 404
-        return response
+        return not_found_error()
     utils.delete_images(app.config['OUTPUT_FOLDER_PIPELINES'])
-    data = request.get_json()
-    list_transformations = data.get('list_transformations')
+    list_transformations = request.get_json().get('list_transformations')
     if list_transformations is None:
-        response = jsonify({'success': False, 'message': 'List of transformations is required'})
+        response = jsonify({'success': False, 'message': 'Field "list_transformations" is required'})
         response.status_code = 404
         return response
     processing_lib.pipeline(filepath, list_transformations)
@@ -84,8 +78,12 @@ def pipeline(image):
 def get_ocr(image):
     filepath = utils.get_filepath(app.config['INPUT_FOLDER'], image)
     if filepath is None:
-        return redirect(url_for('upload'))
-    text = request.form.get('text', '')
+        return not_found_error()
+    text = request.get_json().get('text')
+    if text is None:
+        response = jsonify({'success': False, 'message': 'Field "text" is required'})
+        response.status_code = 404
+        return response
     pipelines = utils.get_images(app.config['OUTPUT_FOLDER_PIPELINES'])
     pipelines.sort(key=lambda x: int(x[1].split('-')[0]))
     results = []
@@ -96,7 +94,9 @@ def get_ocr(image):
 
     result_text, percentage = ocr.compare(text, filepath)
     results.insert(0, {'pipeline': 'original', 'original': text, 'result': result_text, 'percentage': percentage})
-    return jsonify(results)
+    response = jsonify({'success': True, 'results': results})
+    response.status_code = 200
+    return response
 
 
 @app.route('/steps/<original>/<folder>/', methods=['GET'])
@@ -106,6 +106,12 @@ def steps(original, folder):
     steps = utils.get_images('static/img/pipelines/steps/{}'.format(folder))
     steps.sort(key=lambda x: int(x[1].split(')')[0]))
     return render_template('steps.html', original=original, steps=steps)
+
+
+def not_found_error():
+    response = jsonify({'success': False, 'message': 'Image not found'})
+    response.status_code = 404
+    return response
 
 
 if __name__ == "__main__":
