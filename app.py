@@ -82,6 +82,8 @@ def get_ocr(image):
 @app.route('/steps/<original>/<folder>/', methods=['GET'])
 def steps(original, folder):
     filepath = utils.get_filepath(app.config['INPUT_FOLDER'], original)
+    if filepath is None:
+        return redirect(url_for('index'))
     original = ['/' + filepath, original]
     steps = utils.get_images('static/img/pipelines/steps/{}'.format(folder))
     steps.sort(key=lambda x: int(x[1].split(')')[0]))

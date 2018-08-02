@@ -102,10 +102,14 @@ def get_ocr(image):
 @app.route('/steps/<original>/<folder>/', methods=['GET'])
 def steps(original, folder):
     filepath = utils.get_filepath(app.config['INPUT_FOLDER'], original)
+    if filepath is None:
+        return not_found_error()
     original = ['/' + filepath, original]
     steps = utils.get_images('static/img/pipelines/steps/{}'.format(folder))
     steps.sort(key=lambda x: int(x[1].split(')')[0]))
-    return render_template('steps.html', original=original, steps=steps)
+    response = jsonify({'success': True, 'original': original, 'steps': steps})
+    response.status_code = 200
+    return response
 
 
 def not_found_error():
