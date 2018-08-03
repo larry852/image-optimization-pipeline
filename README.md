@@ -23,7 +23,7 @@ Aplicación de múltiples técnicas y transformación en imágenes para su optim
 
 ## Requirements
 
-### Pyhton 3
+### phyton 3
 ```sh
 sudo apt install python3
 ```
