@@ -38,6 +38,22 @@ sudo apt install python-pip
 sudo pip install virtualenv
 ```
 
+### python3-dev
+```sh
+sudo apt install python3-dev
+```
+
+### tesseract-ocr
+```sh
+sudo apt install tesseract-ocr
+```
+
+### tesseract-spa
+```sh
+sudo apt install tesseract-spa
+```
+
+
 ## Run
 ```sh
 git clone https://github.com/larry852/image-optimization-pipeline
