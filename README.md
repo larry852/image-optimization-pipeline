@@ -19,3 +19,35 @@ Aplicación de múltiples técnicas y transformación en imágenes para su optim
 | /ocr/{image} | <ul><li>text</li></ul> | POST | <ul><li>success</li><li>results</li></ul> | Get comparative ocr of all pipelines of image by id |
 | /steps/{pipeline} | | GET | <ul><li>success</li><li>steps</li></ul> | Get steps of pipeline by id |
 | /ocr-individual/{pipeline} | | GET | <ul><li>success</li><li>results</li></ul> | Get text of pipeline by id |
+
+
+## Requirements
+
+### Pyhton 3
+```sh
+sudo apt install python3
+```
+
+### python-pip
+```sh
+sudo apt install python-pip
+```
+
+### virtualenv
+```sh
+sudo pip install virtualenv
+```
+
+## Run
+```sh
+git clone https://github.com/larry852/image-optimization-pipeline
+cd image-optimization-pipeline
+virtualenv -p python3 env
+source env/bin/activate
+pip install -r requirements.txt
+
+# Run app http://localhost:3000/
+python app.py
+# Run api http://localhost:8000/
+python api.py
+```
