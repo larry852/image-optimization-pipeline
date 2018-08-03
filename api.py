@@ -106,7 +106,7 @@ def get_ocr(image):
     text = request.get_json().get('text')
     if text is None:
         response = jsonify({'success': False, 'message': 'Field "text" is required'})
-        response.status_code = 404
+        response.status_code = 400
         return response
     pipelines = utils.get_images(app.config['OUTPUT_FOLDER_PIPELINES'])
     pipelines.sort(key=lambda x: int(x[1].split('-')[0]))
@@ -123,15 +123,27 @@ def get_ocr(image):
     return response
 
 
-@app.route('/steps/<original>/<folder>/', methods=['GET'])
-def steps(original, folder):
+@app.route('/steps/<original>/<pipeline>/', methods=['GET'])
+def steps(original, pipeline):
     filepath = utils.get_filepath(app.config['INPUT_FOLDER'], original)
     if filepath is None:
         return not_found_error()
     original = ['/' + filepath, original]
-    steps = utils.get_images('static/img/pipelines/steps/{}'.format(folder))
+    steps = utils.get_images('static/img/pipelines/steps/{}'.format(pipeline))
     steps.sort(key=lambda x: int(x[1].split(')')[0]))
     response = jsonify({'success': True, 'original': original, 'steps': steps})
+    response.status_code = 200
+    return response
+
+
+@app.route('/ocr-individual/<pipeline>', methods=['GET'])
+def get_ocr_inidividual(pipeline):
+    filepath = utils.get_filepath(app.config['OUTPUT_FOLDER_PIPELINES'], pipeline)
+    if filepath is None:
+        return not_found_error()
+    text = ocr.extract(filepath)
+    results = {'pipeline': pipeline, 'text': text}
+    response = jsonify({'success': True, 'results': results})
     response.status_code = 200
     return response
 
