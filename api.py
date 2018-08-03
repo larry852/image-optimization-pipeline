@@ -16,7 +16,7 @@ app.config['OUTPUT_FOLDER_STEPS'] = 'static/img/pipelines/steps'
 
 @app.route('/', methods=['GET'])
 def api_root():
-    return 'Welcome'
+    return 'image-optimization-pipeline Aplicación de múltiples técnicas y transformación en imágenes para su optimización.'
 
 
 @app.route('/upload', methods=['POST'])
@@ -93,7 +93,7 @@ def get_pipeline(image):
         if next((x for x in pipelines if int(x[1].split('-')[0]) == index), None) is None:
             pipelines.append(('/static/img/fail.gif', '{}-{}'.format(index, str(uuid.uuid4()).split('-')[0])))
     pipelines.sort(key=lambda x: int(x[1].split('-')[0]))
-    response = jsonify({'success': True, 'original': original, 'pipelines': pipelines})
+    response = jsonify({'success': True, 'original': original, 'pipeline': pipelines})
     response.status_code = 200
     return response
 
@@ -123,15 +123,11 @@ def get_ocr(image):
     return response
 
 
-@app.route('/steps/<original>/<pipeline>/', methods=['GET'])
-def steps(original, pipeline):
-    filepath = utils.get_filepath(app.config['INPUT_FOLDER'], original)
-    if filepath is None:
-        return not_found_error()
-    original = ['/' + filepath, original]
+@app.route('/steps/<pipeline>/', methods=['GET'])
+def steps(pipeline):
     steps = utils.get_images('static/img/pipelines/steps/{}'.format(pipeline))
     steps.sort(key=lambda x: int(x[1].split(')')[0]))
-    response = jsonify({'success': True, 'original': original, 'steps': steps})
+    response = jsonify({'success': True, 'steps': steps})
     response.status_code = 200
     return response
 
@@ -155,4 +151,4 @@ def not_found_error():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True, port=4000)
+    app.run(host='0.0.0.0', debug=True, port=8000)
