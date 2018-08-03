@@ -2,10 +2,10 @@
 Aplicación de múltiples técnicas y transformación en imágenes para su optimización.
 
 ## App
-- Address: [http://www.loencontre.co:3000/](http://www.loencontre.co:3000/)
+- Address: [http://www.loencontre.co:3000](http://www.loencontre.co:3000)
 
 ## API
-- Address: [http://www.loencontre.co:8000/](http://www.loencontre.co:8000/)
+- Address: [http://www.loencontre.co:8000](http://www.loencontre.co:8000)
 
 ## API endpoints
 
