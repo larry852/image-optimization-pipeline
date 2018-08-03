@@ -6,10 +6,12 @@ star() {
 }
 
 star-app() {
+    cd ..
     python app.py
 }
 
 star-api() {
+	cd ..
     python api.py
 }
 
