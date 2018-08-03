@@ -125,6 +125,7 @@ def get_ocr(image):
 
 @app.route('/steps/<pipeline>/', methods=['GET'])
 def steps(pipeline):
+    pipeline = int(pipeline.split('-')[0])
     steps = utils.get_images('static/img/pipelines/steps/{}'.format(pipeline))
     steps.sort(key=lambda x: int(x[1].split(')')[0]))
     response = jsonify({'success': True, 'steps': steps})
