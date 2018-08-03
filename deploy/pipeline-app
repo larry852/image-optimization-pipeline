@@ -13,7 +13,7 @@
 NAME="pipeline"
 PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin"
 APPDIR="/home/ubuntu/image-optimization-pipeline/deploy"
-APPBIN="start"
+APPBIN="start-app"
 APPARGS=""
 USER="ubuntu"
 GROUP="sudo"
