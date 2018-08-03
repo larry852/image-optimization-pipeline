@@ -1,16 +1,16 @@
 #!/bin/sh
 
 ### BEGIN INIT INFO
-# Provides:          pipeline
+# Provides:          pipeline-app
 # Required-Start:    $local_fs $network $syslog
 # Required-Stop:     $local_fs $network $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: pipeline
-# Description:       pipeline
+# Short-Description: pipeline-app
+# Description:       pipeline-app
 ### END INIT INFO
 
-NAME="pipeline"
+NAME="pipeline-app"
 PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin"
 APPDIR="/home/ubuntu/image-optimization-pipeline/deploy"
 APPBIN="start-app"
