@@ -25,7 +25,7 @@ def api_root():
 def upload():
     images = utils.get_images(app.config['INPUT_FOLDER'])
     images.sort(key=lambda x: int(x[1]), reverse=True)
-    new_file = request.files.get('file', None)
+    new_file = request.files.get('img', None)
     if new_file is not None and utils.is_allowed_file(new_file.filename):
         filename = str(len(images) + 1) + '.' + new_file.filename.rsplit('.', 1)[1].lower()
         new_file.save(join(app.config['INPUT_FOLDER'], filename))
