@@ -5,9 +5,11 @@ from core import ocr
 import utils
 import uuid
 from operator import itemgetter
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
 app.config['INPUT_FOLDER'] = 'static/img/input/'
 app.config['OUTPUT_FOLDER'] = 'static/img/output/'
 app.config['OUTPUT_FOLDER_PIPELINES'] = 'static/img/pipelines/results'
