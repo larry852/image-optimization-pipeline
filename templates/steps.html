@@ -43,6 +43,23 @@
                     <a href="{{original[0]}}" target="_blank">
                         <img class="thumb" src="{{original[0]}}" title="{{original[0]}}">
                     </a>                
+                    <input type="hidden" id="original" value="{{original[1]}}"> 
+                    <input type="hidden" id="folder" value="{{folder}}"> 
+                </div>
+                <div class="col-sm-9">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <h4>Análisis OCR</h4>
+                                <textarea rows="4" cols="50" type="text" name="text" id="text"></textarea>
+                                <button id="ocr-button-steps" type="button" class="btn btn-primary">Analizar</button>                                
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div id="ocr-table-steps" class="table-responsive"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

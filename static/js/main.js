@@ -49,13 +49,27 @@ $("#ocr-button").click(function() {
     });
 });
 
-function ocr_table(results) {
-    var container = $('#ocr-table');
+$("#ocr-button-steps").click(function() {
+    request = $.ajax({
+        url: "/ocr-steps/" + $('#original').val() + "/" + $('#folder').val(),
+        type: "post",
+        data: {
+            'text': $('#text').val()
+        }
+    });
+    request.done(function(response, textStatus, jqXHR) {
+        console.log(response);
+        ocr_table_steps(response);
+    });
+});
+
+function ocr_table_steps(results) {
+    var container = $('#ocr-table-steps');
     container.html('');
     table = $('<table class="table table-bordered"><thead class="thead-dark"><tr><th>#</th><th>Texto original</th><th>Texto resultado</th><th>%</th></tr></thead>');
     results.forEach(function(result) {
         var tr = $('<tr>');
-        ['pipeline', 'original', 'result', 'percentage'].forEach(function(attr) {
+        ['step', 'original', 'result', 'percentage'].forEach(function(attr) {
             tr.append('<td>' + result[attr] + '</td>');
         });
         table.append(tr);
