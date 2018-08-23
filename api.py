@@ -130,7 +130,31 @@ def steps(pipeline):
     pipeline = int(pipeline.split('-')[0])
     steps = utils.get_images('static/img/pipelines/steps/{}'.format(pipeline))
     steps.sort(key=lambda x: int(x[1].split(')')[0]))
-    response = jsonify({'success': True, 'steps': steps})
+    response = jsonify({'success': True, 'steps': steps, 'pipeline': pipeline})
+    response.status_code = 200
+    return response
+
+
+@app.route('/ocr-steps/<original>/<folder>', methods=['POST'])
+def get_ocr_steps(original, folder):
+    filepath = utils.get_filepath(app.config['INPUT_FOLDER'], original)
+    if filepath is None:
+        return not_found_error()
+    text = request.get_json().get('text')
+    if text is None:
+        response = jsonify({'success': False, 'message': 'Field "text" is required'})
+        response.status_code = 400
+        return response
+    steps = utils.get_images('static/img/pipelines/steps/{}'.format(folder))
+    steps.sort(key=lambda x: int(x[1].split(')')[0]))
+    results = []
+    for step in steps:
+        result_text, percentage = ocr.compare(text, utils.get_filepath('static/img/pipelines/steps/{}'.format(folder), step[1]))
+        results.append({'step': step[1].split('-')[0], 'original': text, 'result': result_text, 'percentage': percentage})
+
+    result_text, percentage = ocr.compare(text, filepath)
+    results.insert(0, {'step': 'original', 'original': text, 'result': result_text, 'percentage': percentage})
+    response = jsonify({'success': True, 'results': results})
     response.status_code = 200
     return response
 
