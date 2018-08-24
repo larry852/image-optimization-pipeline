@@ -76,3 +76,17 @@ function ocr_table_steps(results) {
     });
     container.append(table);
 }
+
+function ocr_table(results) {
+    var container = $('#ocr-table');
+    container.html('');
+    table = $('<table class="table table-bordered"><thead class="thead-dark"><tr><th>#</th><th>Texto original</th><th>Texto resultado</th><th>%</th></tr></thead>');
+    results.forEach(function(result) {
+        var tr = $('<tr>');
+        ['pipeline', 'original', 'result', 'percentage'].forEach(function(attr) {
+            tr.append('<td>' + result[attr] + '</td>');
+        });
+        table.append(tr);
+    });
+    container.append(table);
+}
