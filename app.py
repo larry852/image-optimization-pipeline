@@ -79,6 +79,25 @@ def get_ocr(image):
     return jsonify(results)
 
 
+@app.route('/ocr-transformations/<image>', methods=['POST'])
+def get_ocr_transformations(image):
+    filepath = utils.get_filepath(app.config['INPUT_FOLDER'], image)
+    if filepath is None:
+        return redirect(url_for('index'))
+    text = request.form.get('text', '')
+    transformations = utils.get_images(app.config['OUTPUT_FOLDER'])
+    # transformations.sort(key=lambda x: int(x[1].split('-')[0]))
+    results = []
+    for transformation in transformations:
+        result_text, percentage = ocr.compare(text, utils.get_filepath(app.config['OUTPUT_FOLDER'], transformation[1]))
+        results.append({'transformation': transformation[1].split('-')[0], 'original': text, 'result': result_text, 'percentage': percentage})
+    results = sorted(results, key=itemgetter('percentage'), reverse=True)
+
+    result_text, percentage = ocr.compare(text, filepath)
+    results.insert(0, {'transformation': 'original', 'original': text, 'result': result_text, 'percentage': percentage})
+    return jsonify(results)
+
+
 @app.route('/steps/<original>/<folder>/', methods=['GET'])
 def steps(original, folder):
     filepath = utils.get_filepath(app.config['INPUT_FOLDER'], original)

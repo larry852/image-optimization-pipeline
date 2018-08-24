@@ -63,6 +63,20 @@ $("#ocr-button-steps").click(function() {
     });
 });
 
+$("#ocr-button-transformations").click(function() {
+    request = $.ajax({
+        url: "/ocr-transformations/" + $('#original').val(),
+        type: "post",
+        data: {
+            'text': $('#text').val()
+        }
+    });
+    request.done(function(response, textStatus, jqXHR) {
+        console.log(response);
+        ocr_table_transformations(response);
+    });
+});
+
 function ocr_table_steps(results) {
     var container = $('#ocr-table-steps');
     container.html('');
@@ -84,6 +98,22 @@ function ocr_table(results) {
     results.forEach(function(result) {
         var tr = $('<tr>');
         ['pipeline', 'original', 'result', 'percentage'].forEach(function(attr) {
+            tr.append('<td>' + result[attr] + '</td>');
+        });
+        table.append(tr);
+    });
+    container.append(table);
+}
+
+
+function ocr_table_transformations(results) {
+    alert('NAAA');
+    var container = $('#ocr-table-transformations');
+    container.html('');
+    table = $('<table class="table table-bordered"><thead class="thead-dark"><tr><th>#</th><th>Texto original</th><th>Texto resultado</th><th>%</th></tr></thead>');
+    results.forEach(function(result) {
+        var tr = $('<tr>');
+        ['transformation', 'original', 'result', 'percentage'].forEach(function(attr) {
             tr.append('<td>' + result[attr] + '</td>');
         });
         table.append(tr);
