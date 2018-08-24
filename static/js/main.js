@@ -107,7 +107,6 @@ function ocr_table(results) {
 
 
 function ocr_table_transformations(results) {
-    alert('NAAA');
     var container = $('#ocr-table-transformations');
     container.html('');
     table = $('<table class="table table-bordered"><thead class="thead-dark"><tr><th>#</th><th>Texto original</th><th>Texto resultado</th><th>%</th></tr></thead>');

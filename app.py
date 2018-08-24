@@ -86,7 +86,6 @@ def get_ocr_transformations(image):
         return redirect(url_for('index'))
     text = request.form.get('text', '')
     transformations = utils.get_images(app.config['OUTPUT_FOLDER'])
-    # transformations.sort(key=lambda x: int(x[1].split('-')[0]))
     results = []
     for transformation in transformations:
         result_text, percentage = ocr.compare(text, utils.get_filepath(app.config['OUTPUT_FOLDER'], transformation[1]))
