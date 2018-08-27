@@ -95,12 +95,13 @@ def transformation(name, filepath):
 
 def run_pipeline(filepath, steps, folder=0):
     path_temp = 'static/img/pipelines/steps/{}/{}.png'
+    image = None
     for index, step in enumerate(steps):
         try:
             image = transformation(step, filepath)
         except Exception:
             logging.debug('[FAIL] Pipeline {}. Steps {} - Step {}'.format(folder, steps, step))
-            return None
+            return image
         filename = str(index + 1) + ')' + step + '-' + str(uuid.uuid4()).split('-')[0]
         filepath = path_temp.format(folder, filename)
         save_image(image, filepath)
@@ -108,14 +109,14 @@ def run_pipeline(filepath, steps, folder=0):
 
 
 def pipeline(filepath, list_transformations):
-    permutations = iterables_utils.get_permutations(list_transformations)
+    forest = iterables_utils.get_forest(list_transformations)
     steps_directory = 'static/img/pipelines/steps/'
     if not path.exists(steps_directory):
         makedirs(steps_directory)
     else:
         rmtree(steps_directory)
         makedirs(steps_directory)
-    for index, steps in enumerate(permutations):
+    for index, steps in enumerate(forest):
         folder = index + 1
         makedirs('static/img/pipelines/steps/{}'.format(folder))
         image = run_pipeline(filepath, steps, folder)
