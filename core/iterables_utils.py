@@ -8,7 +8,7 @@ except Exception as e:
 
 
 def get_powerset(iterable):
-    return chain.from_iterable(combinations(iterable, r) for r in range(1, len(iterable) + 1))
+    return chain.from_iterable(combinations(iterable, r) for r in range(2, len(iterable) + 1))
 
 
 def get_permutations(iterable):
