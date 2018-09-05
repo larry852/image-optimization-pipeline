@@ -1,11 +1,9 @@
 # image-optimization-pipeline
 Aplicación de múltiples técnicas y transformación en imágenes para su optimización.
 
-## App
-- Address: [http://www.loencontre.co:3000](http://www.loencontre.co:3000)
-
-## API
-- Address: [http://www.loencontre.co:8000](http://www.loencontre.co:8000)
+## Deployment
+- APP: [http://www.loencontre.co:3000](http://www.loencontre.co:3000)
+- API: [http://www.loencontre.co:8000](http://www.loencontre.co:8000)
 
 ## Requirements
 
