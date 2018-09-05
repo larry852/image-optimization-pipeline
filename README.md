@@ -63,4 +63,5 @@ python api.py
 | /pipeline/{image} | <ul><li>steps</li></ul> | POST | <ul><li>success</li><li>original</li><li>pipeline</li></ul> | Get specific pipeline of image by id |
 | /ocr/{image} | <ul><li>text</li></ul> | POST | <ul><li>success</li><li>results</li></ul> | Get comparative ocr of all pipelines of image by id |
 | /steps/{pipeline} | | GET | <ul><li>success</li><li>steps</li></ul> | Get steps of pipeline by id |
+| /ocr-steps/{original}/{folder} | | GET | <ul><li>success</li><li>results</li></ul> | Get text of each step of pipeline by folder id |
 | /ocr-individual/{pipeline} | | GET | <ul><li>success</li><li>results</li></ul> | Get text of pipeline by id |
