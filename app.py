@@ -5,9 +5,11 @@ from core import ocr
 import utils
 import uuid
 from operator import itemgetter
+from flask_sslify import SSLify
 
 
 app = Flask(__name__)
+sslify = SSLify(app)
 app.config['INPUT_FOLDER'] = 'static/img/input/'
 app.config['OUTPUT_FOLDER'] = 'static/img/output/'
 app.config['OUTPUT_FOLDER_PIPELINES'] = 'static/img/pipelines/results'
@@ -123,15 +125,6 @@ def get_ocr_steps(original, folder):
     result_text, percentage = ocr.compare(text, filepath)
     results.insert(0, {'step': 'original', 'original': text, 'result': result_text, 'percentage': percentage})
     return jsonify(results)
-
-
-@app.before_request
-def before_request():
-    print("HOLAAAAAAAAA")
-    if request.url.startswith('http://'):
-        url = request.url.replace('http://', 'https://', 1)
-        code = 301
-        return redirect(url, code=code)
 
 
 if __name__ == "__main__":

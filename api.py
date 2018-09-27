@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, redirect
+from flask import Flask, request, jsonify
 from os.path import join
 from core import main as processing_lib
 from core import ocr
@@ -6,9 +6,11 @@ import utils
 import uuid
 from operator import itemgetter
 from flask_cors import CORS
+from flask_sslify import SSLify
 
 
 app = Flask(__name__)
+sslify = SSLify(app)
 CORS(app)
 app.config['INPUT_FOLDER'] = 'static/img/input/'
 app.config['OUTPUT_FOLDER'] = 'static/img/output/'
@@ -175,14 +177,6 @@ def not_found_error():
     response = jsonify({'success': False, 'message': 'Image not found'})
     response.status_code = 404
     return response
-
-
-@app.before_request
-def before_request():
-    if request.url.startswith('http://'):
-        url = request.url.replace('http://', 'https://', 1)
-        code = 301
-        return redirect(url, code=code)
 
 
 if __name__ == "__main__":
