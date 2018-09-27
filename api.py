@@ -178,10 +178,11 @@ def not_found_error():
 
 
 @app.before_request
-def force_https():
-    if not request.is_secure:
-        print("http")
-        return redirect(request.url.replace('http://', 'https://'))
+def before_request():
+    if request.url.startswith('http://'):
+        url = request.url.replace('http://', 'https://', 1)
+        code = 301
+        return redirect(url, code=code)
 
 
 if __name__ == "__main__":
