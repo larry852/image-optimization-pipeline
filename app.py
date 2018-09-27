@@ -127,6 +127,7 @@ def get_ocr_steps(original, folder):
 
 @app.before_request
 def before_request():
+    print("HOLAAAAAAAAA")
     if request.url.startswith('http://'):
         url = request.url.replace('http://', 'https://', 1)
         code = 301
