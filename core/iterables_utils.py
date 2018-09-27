@@ -8,11 +8,16 @@ except Exception as e:
 
 
 def get_powerset(iterable):
-    return chain.from_iterable(combinations(iterable, r) for r in range(len(iterable) + 1))
+    return chain.from_iterable(combinations(iterable, r) for r in range(2, len(iterable) + 1))
 
 
 def get_permutations(iterable):
     return permutations(iterable)
+
+
+def get_forest(iterable):
+    forest = chain(get_permutations(iterable), get_powerset(iterable))
+    return set(forest)
 
 
 if __name__ == '__main__':

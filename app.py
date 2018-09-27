@@ -49,7 +49,6 @@ def pipeline(image):
         utils.delete_images(app.config['OUTPUT_FOLDER_PIPELINES'])
         list_transformations = request.form.get('list_transformations').split(',')
         processing_lib.pipeline(filepath, list_transformations)
-        return redirect(url_for('pipeline', image=image))
     original = ['/' + filepath, image]
     pipelines = utils.get_images(app.config['OUTPUT_FOLDER_PIPELINES'])
     steps_count = utils.count_folders(app.config['OUTPUT_FOLDER_STEPS'])
