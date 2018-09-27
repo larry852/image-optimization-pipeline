@@ -127,4 +127,5 @@ def get_ocr_steps(original, folder):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True, port=3000)
+    context = ('/etc/letsencrypt/live/loencontre.co/fullchain.pem', '/etc/letsencrypt/live/loencontre.co/privkey.pem')
+    app.run(host='0.0.0.0', debug=False, port=3000, ssl_context=context)
