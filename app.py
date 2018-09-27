@@ -125,6 +125,12 @@ def get_ocr_steps(original, folder):
     return jsonify(results)
 
 
+@app.before_request
+def force_https():
+    if request.endpoint in app.view_functions and not request.is_secure:
+        return redirect(request.url.replace('http://', 'https://'))
+
+
 if __name__ == "__main__":
     context = ('/etc/letsencrypt/live/loencontre.co/fullchain.pem', '/etc/letsencrypt/live/loencontre.co/privkey.pem')
     app.run(host='0.0.0.0', debug=False, port=3000, ssl_context=context)

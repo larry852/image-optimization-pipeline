@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, redirect
 from os.path import join
 from core import main as processing_lib
 from core import ocr
@@ -175,6 +175,12 @@ def not_found_error():
     response = jsonify({'success': False, 'message': 'Image not found'})
     response.status_code = 404
     return response
+
+
+@app.before_request
+def force_https():
+    if request.endpoint in app.view_functions and not request.is_secure:
+        return redirect(request.url.replace('http://', 'https://'))
 
 
 if __name__ == "__main__":
