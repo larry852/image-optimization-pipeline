@@ -1,9 +1,9 @@
 from core import main as processing_lib
 from core import ocr
 import utils
-from operator import itemgetter
 from static.img.original_texts import ORIGINAL_TEXTS
 import csv
+from timeit import default_timer
 
 
 config = {}
@@ -19,14 +19,17 @@ def main():
     init_results()
     utils.delete_images(config['OUTPUT_FOLDER_PIPELINES'])
     images = utils.get_images(config['INPUT_FOLDER'])
+
     for image in images:
         filepath = image[0][1:]
         text = ORIGINAL_TEXTS[image[1]]
 
         result_text, percentage = ocr.compare(text, filepath)
-        write_result([image[1], 'original', text, result_text, percentage])
 
+        time = default_timer()
         processing_lib.pipeline(filepath, config['TRANSFORMATIONS'])
+        time_end = default_timer() - time
+        write_result([image[1], 'original', text, result_text, percentage, time_end])
 
         pipelines = utils.get_images(config['OUTPUT_FOLDER_PIPELINES'])
         pipelines.sort(key=lambda x: int(x[1].split('-')[0]))
@@ -35,8 +38,7 @@ def main():
             steps = utils.get_images(config['OUTPUT_FOLDER_STEPS'] + pipeline[1].split('-')[0])
             steps.sort(key=lambda x: int(x[1].split(')')[0]))
             steps = [step[1].split('-')[0] for step in steps]
-
-            write_result([image[1], ' '.join(steps), text, result_text, percentage])
+            write_result([image[1], ' '.join(steps), text, result_text, percentage, '-'])
         break
 
 
@@ -50,7 +52,7 @@ def write_result(row):
 def init_results():
     with open('results.csv', 'w') as csvFile:
         writer = csv.writer(csvFile)
-        writer.writerow(['imagen', 'pipeline', 'texto original', 'texto detectado', 'porcentaje'])
+        writer.writerow(['IMAGEN', 'PIPELINE', 'TEXTO ORIGINAL', 'TEXTO DETECTADO', 'PROCENTAJE', 'TIEMPO'])
     csvFile.close()
 
 
