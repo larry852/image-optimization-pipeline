@@ -4,6 +4,7 @@ import uuid
 from os import makedirs, path
 from shutil import rmtree
 import logging
+from timeit import default_timer
 try:
     from . import transformations
     from . import iterables_utils
@@ -109,6 +110,7 @@ def run_pipeline(filepath, steps, folder=0):
 
 
 def pipeline(filepath, list_transformations):
+    times = {}
     forest = iterables_utils.get_forest(list_transformations)
     steps_directory = 'static/img/pipelines/steps/'
     if not path.exists(steps_directory):
@@ -117,6 +119,7 @@ def pipeline(filepath, list_transformations):
         rmtree(steps_directory)
         makedirs(steps_directory)
     for index, steps in enumerate(forest):
+        time = default_timer()
         folder = index + 1
         makedirs('static/img/pipelines/steps/{}'.format(folder))
         image = run_pipeline(filepath, steps, folder)
@@ -124,6 +127,9 @@ def pipeline(filepath, list_transformations):
             logging.debug('[SUCCESS] Pipeline {}. Steps {}'.format(folder, steps))
             filename = str(folder) + '-' + str(uuid.uuid4()).split('-')[0]
             save_image(image, 'static/img/pipelines/results/{}.png'.format(filename))
+        time_end = default_timer() - time
+        times[folder] = time_end
+    return times
 
 
 def pipeline_individual(filepath, steps):

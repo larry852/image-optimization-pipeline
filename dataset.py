@@ -24,21 +24,23 @@ def main():
         text = ORIGINAL_TEXTS[image[1]]
         utils.delete_images(config['OUTPUT_FOLDER_PIPELINES'])
 
-        result_text, percentage = ocr.compare(text, filepath)
-
         time = default_timer()
-        processing_lib.pipeline(filepath, config['TRANSFORMATIONS'])
+        result_text, percentage = ocr.compare(text, filepath)
         time_end = default_timer() - time
         write_result([image[1], 'original', percentage, text, result_text, time_end])
+
+        times = processing_lib.pipeline(filepath, config['TRANSFORMATIONS'])
 
         pipelines = utils.get_images(config['OUTPUT_FOLDER_PIPELINES'])
         pipelines.sort(key=lambda x: int(x[1].split('-')[0]))
         for pipeline in pipelines:
+            time = default_timer()
             result_text, percentage = ocr.compare(text, utils.get_filepath(config['OUTPUT_FOLDER_PIPELINES'], pipeline[1]))
             steps = utils.get_images(config['OUTPUT_FOLDER_STEPS'] + pipeline[1].split('-')[0])
             steps.sort(key=lambda x: int(x[1].split(')')[0]))
             steps = [step[1].split('-')[0] for step in steps]
-            write_result([image[1], '\r'.join(steps), percentage, text, result_text, '-'])
+            time_end = default_timer() - time
+            write_result([image[1], '\r'.join(steps), percentage, text, result_text, times[int(pipeline[1].split('-')[0])] + time_end])
 
 
 def write_result(row):
@@ -51,7 +53,7 @@ def write_result(row):
 def init_results():
     with open('results.csv', 'w') as csvFile:
         writer = csv.writer(csvFile)
-        writer.writerow(['IMAGEN', 'PIPELINE', 'PORCENTAJE', 'TEXTO ORIGINAL', 'TEXTO DETECTADO', 'TIEMPO PIPELINES'])
+        writer.writerow(['IMAGEN', 'PIPELINE', 'PORCENTAJE DE SIMILITUD', 'TEXTO ORIGINAL', 'TEXTO DETECTADO', 'TIEMPO(PIPELINE INDIVIDUAL + OCR + VALIDACION)'])
     csvFile.close()
 
 
@@ -60,3 +62,4 @@ if __name__ == '__main__':
     main()
     time_end = default_timer() - time
     print('Total time execution: {}'.format(time_end))
+    write_result(['', '', '', '', 'TIEMPO TOTAL (FOREST + PIPELINES + OCRS + VALIDACIONES)', time_end])
