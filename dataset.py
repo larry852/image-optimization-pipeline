@@ -9,7 +9,7 @@ config = {}
 config['INPUT_FOLDER'] = 'static/img/input/'
 config['OUTPUT_FOLDER'] = 'static/img/output/'
 config['OUTPUT_FOLDER_PIPELINES'] = 'static/img/pipelines/results'
-config['OUTPUT_FOLDER_STEPS'] = 'static/img/pipelines/steps'
+config['OUTPUT_FOLDER_STEPS'] = 'static/img/pipelines/steps/'
 config['TRANSFORMATIONS'] = ['solarize', 'posterize', 'enhance_basic_sharpness', 'crop_morphology', 'clean_imagemagic', ]
 config['TRANSFORMATIONS'] = ['crop_morphology', ]
 
@@ -28,7 +28,10 @@ def main():
         results = []
         for pipeline in pipelines:
             result_text, percentage = ocr.compare(text, utils.get_filepath(config['OUTPUT_FOLDER_PIPELINES'], pipeline[1]))
-            results.append({'pipeline': pipeline[1].split('-')[0], 'original': text, 'result': result_text, 'percentage': percentage})
+            steps = utils.get_images(config['OUTPUT_FOLDER_STEPS'] + pipeline[1].split('-')[0])
+            steps.sort(key=lambda x: int(x[1].split(')')[0]))
+            steps = [step[1].split('-')[0] for step in steps]
+            results.append({'pipeline': steps, 'original': text, 'result': result_text, 'percentage': percentage})
 
         results = sorted(results, key=itemgetter('percentage'), reverse=True)
 
