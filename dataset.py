@@ -12,7 +12,6 @@ config['OUTPUT_FOLDER'] = 'static/img/output/'
 config['OUTPUT_FOLDER_PIPELINES'] = 'static/img/pipelines/results'
 config['OUTPUT_FOLDER_STEPS'] = 'static/img/pipelines/steps/'
 config['TRANSFORMATIONS'] = ['solarize', 'posterize', 'enhance_basic_sharpness', 'crop_morphology', 'clean_imagemagic', ]
-config['TRANSFORMATIONS'] = ['crop_morphology', 'enhance_basic_sharpness', ]
 
 
 def main():
