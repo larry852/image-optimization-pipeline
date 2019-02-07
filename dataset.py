@@ -52,7 +52,7 @@ def write_result(row):
 def init_results():
     with open('results.csv', 'w') as csvFile:
         writer = csv.writer(csvFile)
-        writer.writerow(['IMAGEN', 'PIPELINE', 'TEXTO ORIGINAL', 'TEXTO DETECTADO', 'PROCENTAJE', 'TIEMPO'])
+        writer.writerow(['IMAGEN', 'PIPELINE', 'TEXTO ORIGINAL', 'TEXTO DETECTADO', 'PORCENTAJE', 'TIEMPO PIPELINES'])
     csvFile.close()
 
 
