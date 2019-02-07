@@ -1,0 +1,4 @@
+imagen,pipeline,texto original,texto detectado,porcentaje
+006,original,IVAN DARIO RAMIREZ GUTIERREZ,,0
+006,1)enhance_basic_sharpness 2)crop_morphology,IVAN DARIO RAMIREZ GUTIERREZ,,0
+006,1)crop_morphology 2)enhance_basic_sharpness,IVAN DARIO RAMIREZ GUTIERREZ,,0
