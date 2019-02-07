@@ -1,4 +1,180 @@
-IMAGEN,PIPELINE,TEXTO ORIGINAL,TEXTO DETECTADO,PROCENTAJE,TIEMPO
-006,original,IVAN DARIO RAMIREZ GUTIERREZ,,0,3.491395804001513
-006,1)crop_morphology 2)enhance_basic_sharpness,IVAN DARIO RAMIREZ GUTIERREZ,,0,-
-006,1)enhance_basic_sharpness 2)crop_morphology,IVAN DARIO RAMIREZ GUTIERREZ,,0,-
+IMAGEN,PIPELINE,PORCENTAJE,TEXTO ORIGINAL,TEXTO DETECTADO,TIEMPO PIPELINES
+006,original,0,IVAN DARIO RAMIREZ GUTIERREZ,,3.266058946999692
+006,"1)enhance_basic_sharpness2)crop_morphology",0,IVAN DARIO RAMIREZ GUTIERREZ,,-
+006,"1)crop_morphology2)enhance_basic_sharpness",0,IVAN DARIO RAMIREZ GUTIERREZ,,-
+002,original,88,YULI PAOLA NARANJO MUÑOZ,"vuu PAOLA
+NARANJO Muñoz
+
+TI 55 709091
+Ncwu…s…mw <
+
+uwos ¿swim …",0.40395504600019194
+002,"1)enhance_basic_sharpness2)crop_morphology",72,YULI PAOLA NARANJO MUÑOZ,"vuu PAOLA
+NARANJO MUNOZ
+
+TI 95 709091
+uczucwum 5mmams
+
+MODERN05 ESPANOL-WGLES",-
+002,"1)crop_morphology2)enhance_basic_sharpness",72,YULI PAOLA NARANJO MUÑOZ,"vuu PAOLA
+NARANJO MUNOZ
+
+TI 95 709091
+uczucwum EN ¡NOMAS
+
+MODERN05 ESPANOL-WGLES",-
+007,original,100,JUAN JAVIER ALFONSO RODRIGUEZ,"Uptc
+
+Un Ive… P=d¡gópm
+ka'm a: cá¿º”…
+
+ 
+
+ 
+
+JUAN JAVIER
+ALFONSO RODRIGUEZ
+COD 201622121
+
+ 
+
+TECNICA PROFESIONAL EN PROCESOS
+
+COMERCIALES Y FINANCIEROS
+
+TUNJA
+www upíc.edu co",1.3193728770002053
+007,"1)enhance_basic_sharpness2)crop_morphology",100,JUAN JAVIER ALFONSO RODRIGUEZ,"JUAN JAVIER
+ALFONSO RODRIGUEZ",-
+007,"1)crop_morphology2)enhance_basic_sharpness",100,JUAN JAVIER ALFONSO RODRIGUEZ,"JUAN JAVIER
+ALFONSO RODRIGUEZ",-
+009,original,100,LEIDY MARCELA SOTELO TORRES,"LEIDY MARCELA
+SOTELO TORRES",0.5131746610004484
+009,"1)enhance_basic_sharpness2)crop_morphology",0,LEIDY MARCELA SOTELO TORRES,,-
+009,"1)crop_morphology2)enhance_basic_sharpness",100,LEIDY MARCELA SOTELO TORRES,"LEIDY MARCELA
+
+SOTELO TORRES
+
+——'_._______",-
+005,original,67,LINA FERNANDA URRUTIA LARA,"LINA FERNANDA
+URRUT!A L…
+
+COD 2016“…
+CC 1063“…
+
+yr:g'.(:'_p.' _¡=;- 5—- …'o '
+
+*=_'_NCL:GA
+
+“.”
+
+¡ ; . | ¡. c .
+
+/",0.9063187179999659
+005,"1)enhance_basic_sharpness2)crop_morphology",29,LINA FERNANDA URRUTIA LARA,"/L¡NA ammm».
+mamma. LARA
+
+COD 201 51 153
+
+C.C 105351…
+-CE-¡C2A“.PP— EN muro—?
+
+º=_': MGLZGF-",-
+005,"1)crop_morphology2)enhance_basic_sharpness",54,LINA FERNANDA URRUTIA LARA,"/LmA FERNANDA
+URRUTXA mm.
+
+COD 291611A53
+
+C.C 105381…
+”a …tow",-
+003,original,75,MANUEL ALFONSO MORENO LOPEZ,MANUEL/Ama; .(,1.3904494199996407
+003,"1)enhance_basic_sharpness2)crop_morphology",0,MANUEL ALFONSO MORENO LOPEZ,,-
+003,"1)crop_morphology2)enhance_basic_sharpness",6,MANUEL ALFONSO MORENO LOPEZ,"—í'tc
+
+""“'“'ººáñº…3",-
+008,original,100,ANDRES FELIPE VERGARA MARTINEZ,"% Uptc
+1» m…w=
+._ ….……….
+
+ 
+ 
+
+ANDRES FELIPE
+VERGARA MARTINEZ
+COD 201614166
+
+TECNOLOG|A EN GESTION DE
+
+PRODUCCION Y TRANSFOMACION
+
+TUNJA
+
+www.uplc.edu4co
+- ..49—1—",1.3830866440002865
+008,"1)enhance_basic_sharpness2)crop_morphology",60,ANDRES FELIPE VERGARA MARTINEZ,"Uptc
+
+m…… …, '…
+mas… a ¿$511
+
+ANDRES FELIPE",-
+008,"1)crop_morphology2)enhance_basic_sharpness",85,ANDRES FELIPE VERGARA MARTINEZ,""" “' ""» …x
+
+Uptc 'k
+
+ 
+
+  
+
+ 
+
+ 
+
+u………… ¡…
+Tmnniós¡u su aí£""¡…l
+
+    
+ 
+ 
+   
+
+  
+
+ANDRES FELIPE
+VER—GARA MARTINEZ
+COD 20161416$",-
+010,original,28,JENNIFER ALEJANDRA MOGOLLON DE ANTONIO,"¡wn no…
+
+YUNJA
+
+¡vv¿,
+
+…¿.¡_—.
+
+www",1.2968014020007104
+010,"1)enhance_basic_sharpness2)crop_morphology",0,JENNIFER ALEJANDRA MOGOLLON DE ANTONIO,,-
+010,"1)crop_morphology2)enhance_basic_sharpness",0,JENNIFER ALEJANDRA MOGOLLON DE ANTONIO,,-
+004,original,88,LINA CARELY BARON BOHORQUEZ,"/ LINA CARELY
+BARÓN BOHORQUEZ
+con zo1szoazo
+
+CC 1049648866
+uc, EN MATEMATIC
+
+TUNJA
+www-“Dtc.e",2.3009542339987092
+004,"1)enhance_basic_sharpness2)crop_morphology",90,LINA CARELY BARON BOHORQUEZ,"LIINA CARELY
+BARON BOHORQUEZ
+COD 201620820 7
+
+cc 104964886…
+LÍCV EN MATEMATICA",-
+004,"1)crop_morphology2)enhance_basic_sharpness",90,LINA CARELY BARON BOHORQUEZ,"LIINA CARELY
+BARON BOHORQUEZ
+COD 201620820 7
+
+cc 104964886“
+LÍCV EN MATEMATICA",-
+001,original,100,JAIR NICOLAS RODRIGUEZ OSORIO,"JAIR NICOLAS
+RODRIGUEZ OSORIO",3.1289011419994495
+001,"1)enhance_basic_sharpness2)crop_morphology",0,JAIR NICOLAS RODRIGUEZ OSORIO,,-
+001,"1)crop_morphology2)enhance_basic_sharpness",0,JAIR NICOLAS RODRIGUEZ OSORIO,,-
