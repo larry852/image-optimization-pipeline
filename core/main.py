@@ -111,6 +111,7 @@ def run_pipeline(filepath, steps, folder=0):
 
 def pipeline(filepath, list_transformations):
     times = {}
+    steps_pipelines = {}
     forest = iterables_utils.get_forest(list_transformations)
     steps_directory = 'static/img/pipelines/steps/'
     if not path.exists(steps_directory):
@@ -127,9 +128,10 @@ def pipeline(filepath, list_transformations):
             logging.debug('[SUCCESS] Pipeline {}. Steps {}'.format(folder, steps))
             filename = str(folder) + '-' + str(uuid.uuid4()).split('-')[0]
             save_image(image, 'static/img/pipelines/results/{}.png'.format(filename))
+        steps_pipelines[folder] = steps
         time_end = default_timer() - time
         times[folder] = time_end
-    return times
+    return steps_pipelines, times
 
 
 def pipeline_individual(filepath, steps):

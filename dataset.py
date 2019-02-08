@@ -17,8 +17,10 @@ config['TRANSFORMATIONS'] = ['solarize', 'posterize', 'enhance_basic_sharpness',
 def main():
     init_results()
     images = utils.get_images(config['INPUT_FOLDER'])
+    images.sort(key=lambda x: int(x[1]))
 
     for image in images:
+        print('Image {}'.format(image[1]))
         filepath = image[0][1:]
         text = ORIGINAL_TEXTS[image[1]]
         utils.delete_images(config['OUTPUT_FOLDER_PIPELINES'])
@@ -28,18 +30,15 @@ def main():
         time_end = default_timer() - time
         write_result([image[1], 'original', percentage, text, result_text, time_end])
 
-        times = processing_lib.pipeline(filepath, config['TRANSFORMATIONS'])
+        steps, times = processing_lib.pipeline(filepath, config['TRANSFORMATIONS'])
 
         pipelines = utils.get_images(config['OUTPUT_FOLDER_PIPELINES'])
         pipelines.sort(key=lambda x: int(x[1].split('-')[0]))
         for pipeline in pipelines:
             time = default_timer()
             result_text, percentage = ocr.compare(text, utils.get_filepath(config['OUTPUT_FOLDER_PIPELINES'], pipeline[1]))
-            steps = utils.get_images(config['OUTPUT_FOLDER_STEPS'] + pipeline[1].split('-')[0])
-            steps.sort(key=lambda x: int(x[1].split(')')[0]))
-            steps = [step[1].split('-')[0] for step in steps]
             time_end = default_timer() - time
-            write_result([image[1], '\r'.join(steps), percentage, text, result_text, times[int(pipeline[1].split('-')[0])] + time_end])
+            write_result([image[1], '\r'.join(steps[int(pipeline[1].split('-')[0])]), percentage, text, result_text, times[int(pipeline[1].split('-')[0])] + time_end])
 
 
 def write_result(row):
