@@ -15,7 +15,7 @@ config['TRANSFORMATIONS'] = ['solarize', 'posterize', 'enhance_basic_sharpness',
 
 
 def main():
-    init_results()
+    init__file_results()
     images = utils.get_images(config['INPUT_FOLDER'])
     images.sort(key=lambda x: int(x[1]))
 
@@ -28,27 +28,26 @@ def main():
         time = default_timer()
         result_text, percentage = ocr.compare(text, filepath)
         time_end = default_timer() - time
-        write_result([image[1], 'original', percentage, text, result_text, time_end])
+        write__file_result([image[1], 'original', percentage, text, result_text, time_end])
 
         steps, times = processing_lib.pipeline(filepath, config['TRANSFORMATIONS'])
 
         pipelines = utils.get_images(config['OUTPUT_FOLDER_PIPELINES'])
-        pipelines.sort(key=lambda x: int(x[1].split('-')[0]))
         for pipeline in pipelines:
             time = default_timer()
             result_text, percentage = ocr.compare(text, utils.get_filepath(config['OUTPUT_FOLDER_PIPELINES'], pipeline[1]))
             time_end = default_timer() - time
-            write_result([image[1], '\r'.join(steps[int(pipeline[1].split('-')[0])]), percentage, text, result_text, times[int(pipeline[1].split('-')[0])] + time_end])
+            write__file_result([image[1], '\r'.join(steps[int(pipeline[1].split('-')[0])]), percentage, text, result_text, times[int(pipeline[1].split('-')[0])] + time_end])
 
 
-def write_result(row):
+def write__file_result(row):
     with open('results.csv', 'a') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(row)
     csvFile.close()
 
 
-def init_results():
+def init__file_results():
     with open('results.csv', 'w') as csvFile:
         writer = csv.writer(csvFile)
         writer.writerow(['IMAGEN', 'PIPELINE', 'PORCENTAJE DE SIMILITUD', 'TEXTO ORIGINAL', 'TEXTO DETECTADO', 'TIEMPO(PIPELINE INDIVIDUAL + OCR + VALIDACION)'])
@@ -60,4 +59,4 @@ if __name__ == '__main__':
     main()
     time_end = default_timer() - time
     print('Total time execution: {}'.format(time_end))
-    write_result(['', '', '', '', 'TIEMPO TOTAL (FOREST + PIPELINES + OCRS + VALIDACIONES)', time_end])
+    write__file_result(['', '', '', '', 'TIEMPO TOTAL (FOREST + PIPELINES + OCRS + VALIDACIONES)', time_end])
