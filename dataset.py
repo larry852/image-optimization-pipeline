@@ -14,10 +14,13 @@ config['OUTPUT_FOLDER_STEPS'] = 'static/img/pipelines/steps/'
 config['TRANSFORMATIONS'] = ['solarize', 'posterize', 'enhance_basic_sharpness', 'crop_morphology', 'clean_imagemagic', ]
 
 
-def main():
-    init__file_results()
+def main(image=0):
+    if image == 0:
+        init__file_results()
+
     images = utils.get_images(config['INPUT_FOLDER'])
     images.sort(key=lambda x: int(x[1]))
+    images = images[image:]
 
     for image in images:
         print('Image {}'.format(image[1]))
@@ -56,7 +59,7 @@ def init__file_results():
 
 if __name__ == '__main__':
     time = default_timer()
-    main()
+    main(65)
     time_end = default_timer() - time
     print('Total time execution: {}'.format(time_end))
     write__file_result(['', '', '', '', 'TIEMPO TOTAL (FOREST + PIPELINES + OCRS + VALIDACIONES)', time_end])
