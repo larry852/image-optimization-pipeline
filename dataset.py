@@ -59,7 +59,7 @@ def init__file_results():
 
 if __name__ == '__main__':
     time = default_timer()
-    main(65)
+    main()
     time_end = default_timer() - time
     print('Total time execution: {}'.format(time_end))
     write__file_result(['', '', '', '', 'TIEMPO TOTAL (FOREST + PIPELINES + OCRS + VALIDACIONES)', time_end])
